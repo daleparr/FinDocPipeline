@@ -4,7 +4,6 @@ __pycache__/
 *$py.class
 *.so
 .Python
-env/
 build/
 develop-eggs/
 dist/
@@ -17,38 +16,195 @@ parts/
 sdist/
 var/
 wheels/
+pip-wheel-metadata/
+share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+MANIFEST
 
-# Environment
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# PEP 582
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
 .env
 .venv
 env/
 venv/
 ENV/
+env.bak/
+venv.bak/
 
-# IDE
-.idea/
-.vscode/
-*.swp
-*.swo
+# Spyder project settings
+.spyderproject
+.spyproject
 
-# Data
-*.parquet
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# ETL Pipeline Specific
+# Data directories
+data/
+data_sources/
+uploads/
+frontend_uploads/
+outputs/
+frontend_outputs/
+processed_data/
+
+# Generated files
 *.csv
+*.parquet
+*.json
 *.xlsx
+*.xls
 *.pdf
-*.pptx
-*.docx
+*.txt
+
+# Except example/template files
+!example_data/
+!templates/
+!docs/examples/
+
+# Processing history
+processing_history.json
+frontend_history.json
 
 # Logs
-*.log
 logs/
+*.log
 
-# Jupyter Notebook
-.ipynb_checkpoints
+# Temporary files
+temp/
+tmp/
+.tmp/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
 
 # OS
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
+
+# Streamlit
+.streamlit/
+
+# Model files
+models/
+*.pkl
+*.joblib
+*.model
+
+# Large files
+*.zip
+*.tar.gz
+*.rar
+
+# Sensitive data
+config/secrets.yaml
+.env.local
+.env.production
+api_keys.txt
+credentials.json
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Cache
+.cache/
+cache/
+
+# Documentation build
+docs/build/
+docs/_build/
+
+# Test outputs
+test_outputs/
+test_data/processed/

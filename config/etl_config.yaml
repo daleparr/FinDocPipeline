@@ -1,0 +1,107 @@
+# ETL Configuration
+
+# Bank Configuration
+banks:
+  - name: "Citigroup"
+    quarters:
+      - "Q1_2025"
+      - "Q4_2024"
+    data_sources:
+      - type: "presentation"
+        format: "pdf"
+        file_pattern: "*earnings-presentation.pdf"
+      - type: "presentation"
+        format: "pdf"
+        file_pattern: "*prqtr*rslt.pdf"
+      - type: "supplement"
+        format: "xlsx"
+        file_pattern: "*Financial-Supplement.xlsx"
+      - type: "supplement"
+        format: "pdf"
+        file_pattern: "*fsqtr*rslt.pdf"
+      - type: "transcript"
+        format: "pdf"
+        file_pattern: "*Earnings-Transcript.pdf"
+      - type: "transcript"
+        format: "pdf"
+        file_pattern: "transcript.pdf"
+      - type: "results"
+        format: "pdf"
+        file_pattern: "*fsqtr*rslt.pdf"
+
+# Processing Configuration
+processing:
+  # Directory settings
+  raw_data_dir: "data_sources"
+  processed_data_dir: "data/processed"
+  log_dir: "logs"
+  
+  # Text cleaning configuration
+  text_cleaning:
+    remove_stopwords: true
+    normalize_whitespace: true
+    remove_punctuation: true
+    lemmatize: true
+    min_word_length: 2
+    max_word_length: 50
+  
+  # Topic modeling configuration
+  topic_modeling:
+    num_topics: 10
+    min_topic_size: 5
+    n_gram_range: [1, 2]
+    embedding_model: "all-MiniLM-L6-v2"
+    seed_topics: true
+    
+  # Sentiment analysis configuration
+  sentiment_analysis:
+    model_name: "ProsusAI/finbert"
+    batch_size: 32
+    min_word_length: 3
+    max_word_length: 50
+
+# Logging configuration
+logging:
+  level: "INFO"
+  file: "etl_pipeline.log"
+  max_bytes: 10485760  # 10MB
+  backup_count: 5
+
+# Alerting configuration
+alerting:
+  enabled: true
+  slack_webhook: ""  # Set via environment variable ETL_ALERTING_SLACK_WEBHOOK
+  email_recipients: []
+  min_severity: "WARNING"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+
+# Performance settings
+performance:
+  max_workers: 4
+  chunk_size: 1000
+  use_gpu: false
+  batch_size: 32
+
+# Storage Configuration
+storage:
+  local: true
+  base_path: "data"
+  versioning: true
+  backup_enabled: true
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  format: "%(asctime)s %(levelname)s %(message)s"
+  file: "logs/etl.log"
+
+# Error Handling
+error_handling:
+  max_retries: 3
+  retry_delay_seconds: 5
+  fail_fast: false
+
+# Performance Settings
+performance:
+  batch_size: 1000
+  parallel_processing: true
+  max_workers: 4
