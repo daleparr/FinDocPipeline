@@ -1,6 +1,6 @@
 # 📊 Financial Document ETL Pipeline
 
-A comprehensive ETL (Extract, Transform, Load) pipeline for processing financial documents from banks and financial institutions. Transforms unstructured documents (PDFs, Excel, text) into structured, NLP-ready datasets.
+A comprehensive ETL (Extract, Transform, Load) pipeline for processing unstructured, public financial documents from banks and financial institutions. Transforms unstructured documents (PDFs, Excel, text) into structured, NLP-ready datasets.
 
 ## 🚀 Features
 

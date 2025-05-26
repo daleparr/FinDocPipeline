@@ -157,43 +157,124 @@ class StandaloneETL:
             return 'other'
     
     def add_nlp_features(self, df):
-        """Add basic NLP features."""
+        """Add comprehensive NLP features including financial terms and figures."""
         # Basic text metrics
         df['word_count'] = df['text'].str.split().str.len()
         df['char_count'] = df['text'].str.len()
         
-        # Financial content detection
-        financial_terms = ['revenue', 'income', 'profit', 'earnings', 'billion', 'million', 
-                          'eps', 'capital', 'assets', 'growth', 'performance']
-        pattern = '|'.join(financial_terms)
-        df['is_financial_content'] = df['text'].str.contains(pattern, case=False, na=False)
+        # Comprehensive financial terms list
+        financial_terms_list = [
+            'revenue', 'income', 'profit', 'earnings', 'billion', 'million',
+            'eps', 'capital', 'assets', 'growth', 'performance', 'margin',
+            'return', 'yield', 'dividend', 'interest', 'loan', 'credit',
+            'deposit', 'fee', 'commission', 'expense', 'cost', 'investment',
+            'portfolio', 'risk', 'regulatory', 'compliance', 'basel',
+            'tier', 'ratio', 'liquidity', 'solvency', 'provision'
+        ]
+        
+        # Extract financial terms from each text
+        def extract_financial_terms(text):
+            text_lower = str(text).lower()
+            found_terms = []
+            for term in financial_terms_list:
+                if term in text_lower:
+                    found_terms.append(term)
+            return '|'.join(found_terms) if found_terms else ''
+        
+        df['all_financial_terms'] = df['text'].apply(extract_financial_terms)
+        
+        # Extract financial figures (numbers with financial context)
+        def extract_financial_figures(text):
+            import re
+            text_str = str(text)
+            
+            # Patterns for financial figures
+            patterns = [
+                r'\$[\d,]+\.?\d*\s*(?:billion|million|thousand|B|M|K)?',  # Dollar amounts
+                r'[\d,]+\.?\d*\s*(?:billion|million|thousand|percent|%|basis points|bps)',  # Numbers with units
+                r'[\d,]+\.?\d*\s*(?:dollars|cents)',  # Dollar/cent amounts
+                r'(?:approximately|about|around|roughly)\s*[\d,]+\.?\d*',  # Approximate figures
+            ]
+            
+            figures = []
+            for pattern in patterns:
+                matches = re.findall(pattern, text_str, re.IGNORECASE)
+                figures.extend(matches)
+            
+            return '|'.join(figures) if figures else ''
+        
+        df['financial_figures'] = df['text'].apply(extract_financial_figures)
+        
+        # Create financial_figures_text (same as financial_figures for compatibility)
+        df['financial_figures_text'] = df['financial_figures']
+        
+        # Classify actual vs projected financial data
+        def classify_actual_vs_projection(text):
+            text_lower = str(text).lower()
+            
+            # Projection indicators
+            projection_terms = [
+                'expect', 'forecast', 'project', 'anticipate', 'estimate',
+                'guidance', 'outlook', 'target', 'goal', 'plan', 'intend',
+                'will be', 'should be', 'likely to', 'going forward',
+                'next quarter', 'next year', 'future', 'upcoming'
+            ]
+            
+            # Actual/historical indicators
+            actual_terms = [
+                'reported', 'achieved', 'delivered', 'recorded', 'posted',
+                'was', 'were', 'had', 'generated', 'earned', 'realized',
+                'last quarter', 'previous', 'year-over-year', 'compared to'
+            ]
+            
+            projection_score = sum(1 for term in projection_terms if term in text_lower)
+            actual_score = sum(1 for term in actual_terms if term in text_lower)
+            
+            if projection_score > actual_score:
+                return 'projection'
+            elif actual_score > projection_score:
+                return 'actual'
+            else:
+                return 'unclear'
+        
+        df['data_type'] = df['text'].apply(classify_actual_vs_projection)
+        
+        # Boolean flags for data type
+        df['is_actual_data'] = df['data_type'] == 'actual'
+        df['is_projection_data'] = df['data_type'] == 'projection'
+        
+        # Financial content detection (enhanced)
+        df['is_financial_content'] = (df['all_financial_terms'] != '') | (df['financial_figures'] != '')
         
         # Speaker analysis
         df['is_management'] = df['speaker_norm'].str.contains('CEO|CFO|Chief', case=False, na=False)
         df['is_analyst'] = df['speaker_norm'].str.contains('Analyst', case=False, na=False)
         df['is_named_speaker'] = df['speaker_norm'] != 'UNKNOWN'
         
-        # Simple topic assignment
+        # Enhanced topic assignment
         def assign_topic(text):
             text_lower = str(text).lower()
-            if any(term in text_lower for term in ['revenue', 'income', 'growth']):
+            if any(term in text_lower for term in ['revenue', 'income', 'growth', 'earnings']):
                 return 'Revenue & Growth'
-            elif any(term in text_lower for term in ['risk', 'credit']):
+            elif any(term in text_lower for term in ['risk', 'credit', 'provision', 'loss']):
                 return 'Risk Management'
-            elif any(term in text_lower for term in ['capital', 'regulatory']):
+            elif any(term in text_lower for term in ['capital', 'regulatory', 'basel', 'tier']):
                 return 'Capital & Regulatory'
-            elif any(term in text_lower for term in ['strategy', 'outlook']):
+            elif any(term in text_lower for term in ['strategy', 'outlook', 'guidance', 'plan']):
                 return 'Strategy & Outlook'
-            elif any(term in text_lower for term in ['cost', 'efficiency']):
+            elif any(term in text_lower for term in ['cost', 'efficiency', 'expense', 'margin']):
                 return 'Operational Efficiency'
+            elif any(term in text_lower for term in ['digital', 'technology', 'innovation']):
+                return 'Digital & Technology'
             else:
                 return 'General Banking'
         
         df['primary_topic'] = df['text'].apply(assign_topic)
         
-        # Topic flags
+        # Enhanced topic flags
         df['has_financial_topic'] = df['primary_topic'].str.contains('Revenue|Capital|Risk', na=False)
         df['has_strategy_topic'] = df['primary_topic'].str.contains('Strategy', na=False)
+        df['has_operational_topic'] = df['primary_topic'].str.contains('Operational', na=False)
         
         return df
     
