@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Standalone ETL Pipeline Web Frontend
+Pure ETL Pipeline Web Frontend
 
-A completely self-contained Streamlit web interface that doesn't depend on 
-any existing ETL modules or configurations.
+A data engineering focused ETL that extracts and structures data without 
+making analytical assumptions or classifications.
 """
 
 import streamlit as st
@@ -28,19 +28,19 @@ try:
 except ImportError:
     EXCEL_AVAILABLE = False
 
-class StandaloneETL:
-    """Completely standalone ETL processor."""
+class PureETL:
+    """Pure data engineering ETL - extraction and structuring only."""
     
     def __init__(self):
-        """Initialize the standalone ETL."""
+        """Initialize the pure ETL."""
         self.setup_directories()
         self.load_history()
     
     def setup_directories(self):
         """Setup required directories."""
-        self.upload_dir = Path("frontend_uploads")
-        self.output_dir = Path("frontend_outputs")
-        self.history_file = Path("frontend_history.json")
+        self.upload_dir = Path("pure_etl_uploads")
+        self.output_dir = Path("pure_etl_outputs")
+        self.history_file = Path("pure_etl_history.json")
         
         self.upload_dir.mkdir(exist_ok=True)
         self.output_dir.mkdir(exist_ok=True)
@@ -124,13 +124,13 @@ class StandaloneETL:
         
         return clean_sentences
     
-    def identify_speaker(self, text):
-        """Simple speaker identification."""
+    def extract_speaker_raw(self, text):
+        """Extract speaker patterns without classification."""
         # Look for speaker patterns at start of text
         patterns = [
             r'^([A-Z][A-Z\s]+):\s*',  # ALL CAPS:
             r'^([A-Z][a-z]+\s+[A-Z][a-z]+):\s*',  # First Last:
-            r'^(CEO|CFO|Chief Executive|Chief Financial)',  # Titles
+            r'^(CEO|CFO|Chief Executive|Chief Financial|Chief Risk Officer):\s*',  # Titles
         ]
         
         for pattern in patterns:
@@ -140,36 +140,62 @@ class StandaloneETL:
         
         return 'UNKNOWN'
     
-    def classify_document(self, filename, text):
-        """Classify document type."""
+    def classify_document_type(self, filename, text):
+        """Enhanced document type classification based on filename and content patterns."""
         filename_lower = filename.lower()
         text_lower = text.lower()
         
-        if 'presentation' in filename_lower:
+        # More specific filename patterns
+        if any(term in filename_lower for term in ['presentation', 'slides', 'deck']):
             return 'earnings_presentation'
-        elif 'supplement' in filename_lower or 'financial' in filename_lower:
+        elif any(term in filename_lower for term in ['supplement', 'financial_supplement', 'fin_supp']):
             return 'financial_supplement'
-        elif 'transcript' in filename_lower or 'call' in filename_lower:
+        elif any(term in filename_lower for term in ['transcript', 'earnings_call', 'call_transcript']):
             return 'earnings_call'
-        elif 'earnings' in text_lower and 'call' in text_lower:
-            return 'earnings_call'
+        elif any(term in filename_lower for term in ['report', 'quarterly_report', 'annual_report']):
+            return 'financial_report'
+        elif any(term in filename_lower for term in ['press_release', 'release', 'announcement']):
+            return 'press_release'
+        elif filename_lower.endswith(('.xlsx', '.xls')):
+            # Excel files are likely financial supplements or data
+            if any(term in text_lower for term in ['balance sheet', 'income statement', 'cash flow']):
+                return 'financial_supplement'
+            else:
+                return 'financial_data'
+        elif filename_lower.endswith('.pdf'):
+            # PDF content analysis - more specific patterns
+            if ('transcript' in text_lower and any(term in text_lower for term in ['operator:', 'moderator:', 'q&a'])):
+                return 'earnings_call'
+            elif any(term in text_lower for term in ['slide', 'presentation', 'agenda']):
+                return 'earnings_presentation'
+            elif any(term in text_lower for term in ['balance sheet', 'income statement', 'financial highlights']):
+                return 'financial_supplement'
+            elif any(term in text_lower for term in ['press release', 'announces', 'reported earnings']):
+                return 'press_release'
+            else:
+                return 'financial_document'
         else:
-            return 'other'
+            # Text files and others
+            if any(term in text_lower for term in ['transcript', 'operator:', 'moderator:', 'q&a session']):
+                return 'earnings_call'
+            else:
+                return 'text_document'
     
-    def add_nlp_features(self, df):
-        """Add comprehensive NLP features with proper missing value handling for NLP workflows."""
+    def extract_raw_features(self, df):
+        """Extract raw features without analytical assumptions."""
         
-        # Handle missing text values first
+        # Handle missing values first
         df['text'] = df['text'].fillna('').astype(str)
-        df['speaker_norm'] = df['speaker_norm'].fillna('UNKNOWN').astype(str)
+        df['speaker_raw'] = df['speaker_raw'].fillna('UNKNOWN').astype(str)
         
-        # Basic text metrics (with zero defaults for missing)
+        # Basic text metrics
         df['word_count'] = df['text'].str.split().str.len().fillna(0).astype(int)
         df['char_count'] = df['text'].str.len().fillna(0).astype(int)
+        df['sentence_length'] = df['word_count']  # Alias for clarity
         
-        # Comprehensive financial terms list
-        financial_terms_list = [
-            'revenue', 'income', 'profit', 'earnings', 'billion', 'million',
+        # Raw financial terms extraction (no classification)
+        financial_vocabulary = [
+            'revenue', 'income', 'profit', 'earnings', 'billion', 'million', 
             'eps', 'capital', 'assets', 'growth', 'performance', 'margin',
             'return', 'yield', 'dividend', 'interest', 'loan', 'credit',
             'deposit', 'fee', 'commission', 'expense', 'cost', 'investment',
@@ -177,29 +203,30 @@ class StandaloneETL:
             'tier', 'ratio', 'liquidity', 'solvency', 'provision'
         ]
         
-        # Extract financial terms from each text (never null)
-        def extract_financial_terms(text):
+        def extract_terms_found(text):
+            """Extract terms found without interpretation."""
             if pd.isna(text) or text == '':
-                return 'NONE'  # Explicit indicator for no financial terms
+                return 'NONE'
             
             text_lower = str(text).lower()
             found_terms = []
-            for term in financial_terms_list:
+            for term in financial_vocabulary:
                 if term in text_lower:
                     found_terms.append(term)
             return '|'.join(found_terms) if found_terms else 'NONE'
         
-        df['all_financial_terms'] = df['text'].apply(extract_financial_terms)
+        df['all_financial_terms'] = df['text'].apply(extract_terms_found)
         
-        # Extract financial figures (numbers with financial context) - never null
-        def extract_financial_figures(text):
+        # Raw financial figures extraction (no interpretation)
+        def extract_figures_found(text):
+            """Extract numerical figures without interpretation."""
             if pd.isna(text) or text == '':
-                return 'NONE'  # Explicit indicator for no figures
+                return 'NONE'
                 
             import re
             text_str = str(text)
             
-            # Patterns for financial figures
+            # Patterns for numerical figures
             patterns = [
                 r'\$[\d,]+\.?\d*\s*(?:billion|million|thousand|B|M|K)?',  # Dollar amounts
                 r'[\d,]+\.?\d*\s*(?:billion|million|thousand|percent|%|basis points|bps)',  # Numbers with units
@@ -214,155 +241,77 @@ class StandaloneETL:
             
             return '|'.join(figures) if figures else 'NONE'
         
-        df['financial_figures'] = df['text'].apply(extract_financial_figures)
+        df['financial_figures'] = df['text'].apply(extract_figures_found)
+        df['financial_figures_text'] = df['financial_figures']  # Compatibility
         
-        # Create financial_figures_text (same as financial_figures for compatibility)
-        df['financial_figures_text'] = df['financial_figures']
-        
-        # Classify actual vs projected financial data (never null)
-        def classify_actual_vs_projection(text):
+        # Raw temporal indicators (no classification)
+        def extract_temporal_indicators(text):
+            """Extract temporal language without classifying as actual/projection."""
             if pd.isna(text) or text == '':
-                return 'unknown'  # Default for missing text
+                return 'NONE'
                 
             text_lower = str(text).lower()
             
-            # Projection indicators
-            projection_terms = [
+            temporal_terms = [
                 'expect', 'forecast', 'project', 'anticipate', 'estimate',
                 'guidance', 'outlook', 'target', 'goal', 'plan', 'intend',
                 'will be', 'should be', 'likely to', 'going forward',
-                'next quarter', 'next year', 'future', 'upcoming'
-            ]
-            
-            # Actual/historical indicators
-            actual_terms = [
+                'next quarter', 'next year', 'future', 'upcoming',
                 'reported', 'achieved', 'delivered', 'recorded', 'posted',
                 'was', 'were', 'had', 'generated', 'earned', 'realized',
                 'last quarter', 'previous', 'year-over-year', 'compared to'
             ]
             
-            projection_score = sum(1 for term in projection_terms if term in text_lower)
-            actual_score = sum(1 for term in actual_terms if term in text_lower)
+            found_terms = []
+            for term in temporal_terms:
+                if term in text_lower:
+                    found_terms.append(term)
             
-            if projection_score > actual_score:
-                return 'projection'
-            elif actual_score > projection_score:
-                return 'actual'
-            else:
-                return 'unclear'
+            return '|'.join(found_terms) if found_terms else 'NONE'
         
-        df['data_type'] = df['text'].apply(classify_actual_vs_projection)
+        df['temporal_indicators'] = df['text'].apply(extract_temporal_indicators)
         
-        # Boolean flags for data type (never null)
-        df['is_actual_data'] = (df['data_type'] == 'actual').astype(bool)
-        df['is_projection_data'] = (df['data_type'] == 'projection').astype(bool)
-        df['is_unclear_data'] = (df['data_type'] == 'unclear').astype(bool)
-        df['is_unknown_data'] = (df['data_type'] == 'unknown').astype(bool)
+        # Basic boolean flags (factual, not interpretive)
+        df['has_financial_terms'] = (df['all_financial_terms'] != 'NONE').astype(bool)
+        df['has_financial_figures'] = (df['financial_figures'] != 'NONE').astype(bool)
+        df['has_temporal_language'] = (df['temporal_indicators'] != 'NONE').astype(bool)
+        df['has_speaker_identified'] = (df['speaker_raw'] != 'UNKNOWN').astype(bool)
+        df['is_empty_text'] = (df['text'] == '').astype(bool)
         
-        # Financial content detection (enhanced) - never null
-        df['is_financial_content'] = ((df['all_financial_terms'] != 'NONE') |
-                                     (df['financial_figures'] != 'NONE')).astype(bool)
-        
-        # Speaker analysis (never null)
-        df['is_management'] = df['speaker_norm'].str.contains('CEO|CFO|Chief', case=False, na=False).astype(bool)
-        df['is_analyst'] = df['speaker_norm'].str.contains('Analyst', case=False, na=False).astype(bool)
-        df['is_named_speaker'] = (df['speaker_norm'] != 'UNKNOWN').astype(bool)
-        
-        # Enhanced topic assignment (never null)
-        def assign_topic(text):
-            if pd.isna(text) or text == '':
-                return 'Unknown'  # Default topic for missing text
-                
-            text_lower = str(text).lower()
-            if any(term in text_lower for term in ['revenue', 'income', 'growth', 'earnings']):
-                return 'Revenue & Growth'
-            elif any(term in text_lower for term in ['risk', 'credit', 'provision', 'loss']):
-                return 'Risk Management'
-            elif any(term in text_lower for term in ['capital', 'regulatory', 'basel', 'tier']):
-                return 'Capital & Regulatory'
-            elif any(term in text_lower for term in ['strategy', 'outlook', 'guidance', 'plan']):
-                return 'Strategy & Outlook'
-            elif any(term in text_lower for term in ['cost', 'efficiency', 'expense', 'margin']):
-                return 'Operational Efficiency'
-            elif any(term in text_lower for term in ['digital', 'technology', 'innovation']):
-                return 'Digital & Technology'
-            else:
-                return 'General Banking'
-        
-        df['primary_topic'] = df['text'].apply(assign_topic)
-        
-        # Enhanced topic flags (never null)
-        df['has_financial_topic'] = df['primary_topic'].str.contains('Revenue|Capital|Risk', na=False).astype(bool)
-        df['has_strategy_topic'] = df['primary_topic'].str.contains('Strategy', na=False).astype(bool)
-        df['has_operational_topic'] = df['primary_topic'].str.contains('Operational', na=False).astype(bool)
-        df['has_unknown_topic'] = (df['primary_topic'] == 'Unknown').astype(bool)
-        
-        # Final missing value check and cleanup
+        # Ensure no missing values
         self._ensure_no_missing_values(df)
         
         return df
     
     def _ensure_no_missing_values(self, df):
-        """Ensure no missing values in the dataset for NLP compatibility."""
+        """Ensure no missing values for downstream processing."""
         
-        # Define default values for different column types
-        string_defaults = {
-            'all_financial_terms': 'NONE',
-            'financial_figures': 'NONE',
-            'financial_figures_text': 'NONE',
-            'data_type': 'unknown',
-            'primary_topic': 'Unknown',
-            'speaker_norm': 'UNKNOWN',
-            'text': '',
-            'source_file': 'unknown.txt',
-            'institution': 'Unknown',
-            'quarter': 'Unknown'
-        }
+        # String columns
+        string_cols = ['all_financial_terms', 'financial_figures', 'financial_figures_text', 
+                      'temporal_indicators', 'speaker_raw', 'text', 'source_file', 
+                      'institution', 'quarter', 'source_type']
         
-        numeric_defaults = {
-            'word_count': 0,
-            'char_count': 0,
-            'sentence_id': 0
-        }
-        
-        boolean_defaults = {
-            'is_actual_data': False,
-            'is_projection_data': False,
-            'is_unclear_data': False,
-            'is_unknown_data': True,  # Default to unknown if missing
-            'is_financial_content': False,
-            'is_management': False,
-            'is_analyst': False,
-            'is_named_speaker': False,
-            'has_financial_topic': False,
-            'has_strategy_topic': False,
-            'has_operational_topic': False,
-            'has_unknown_topic': True  # Default to unknown topic if missing
-        }
-        
-        # Apply defaults for each column type
-        for col, default_val in string_defaults.items():
+        for col in string_cols:
             if col in df.columns:
-                df[col] = df[col].fillna(default_val).astype(str)
+                df[col] = df[col].fillna('NONE' if 'financial' in col or 'temporal' in col else 'UNKNOWN').astype(str)
         
-        for col, default_val in numeric_defaults.items():
+        # Numeric columns
+        numeric_cols = ['word_count', 'char_count', 'sentence_length', 'sentence_id']
+        for col in numeric_cols:
             if col in df.columns:
-                df[col] = df[col].fillna(default_val).astype(int)
+                df[col] = df[col].fillna(0).astype(int)
         
-        for col, default_val in boolean_defaults.items():
+        # Boolean columns
+        boolean_cols = ['has_financial_terms', 'has_financial_figures', 'has_temporal_language', 
+                       'has_speaker_identified', 'is_empty_text']
+        for col in boolean_cols:
             if col in df.columns:
-                df[col] = df[col].fillna(default_val).astype(bool)
-        
-        # Ensure datetime columns have proper defaults
-        datetime_cols = ['processing_date', 'timestamp_iso']
-        for col in datetime_cols:
-            if col in df.columns:
-                df[col] = df[col].fillna(pd.Timestamp.now().isoformat())
+                df[col] = df[col].fillna(False).astype(bool)
         
         return df
     
-    def process_files(self, institution, quarter, uploaded_files, progress_callback=None):
-        """Process uploaded files."""
+    def process_files(self, institution, quarter, uploaded_files, progress_callback=None, uploaded_by="Unknown"):
+        """Process uploaded files with pure ETL approach."""
         try:
             # Create processing directory
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -407,22 +356,23 @@ class StandaloneETL:
                 sentences = self.segment_sentences(text)
                 
                 # Create records
-                doc_type = self.classify_document(uploaded_file.name, text)
+                doc_type = self.classify_document_type(uploaded_file.name, text)
                 
                 for idx, sentence in enumerate(sentences):
-                    speaker = self.identify_speaker(sentence)
+                    speaker = self.extract_speaker_raw(sentence)
                     
                     record = {
                         'source_file': uploaded_file.name,
                         'institution': institution,
                         'quarter': quarter,
                         'sentence_id': idx + 1,
-                        'speaker_norm': speaker,
+                        'speaker_raw': speaker,
                         'text': sentence,
                         'source_type': doc_type,
                         'call_id': f"{institution}_{quarter}_{timestamp}",
                         'file_path': str(file_path),
-                        'processing_date': datetime.now().isoformat()
+                        'processing_date': datetime.now().isoformat(),
+                        'extraction_timestamp': datetime.now().isoformat()
                     }
                     all_records.append(record)
             
@@ -435,11 +385,11 @@ class StandaloneETL:
             # Create DataFrame
             df = pd.DataFrame(all_records)
             
-            # Add NLP features
+            # Add raw features (no analysis)
             if progress_callback:
-                progress_callback(0.8, "Adding NLP features...")
+                progress_callback(0.8, "Extracting raw features...")
             
-            df = self.add_nlp_features(df)
+            df = self.extract_raw_features(df)
             
             # Save outputs
             output_dir = self.output_dir / f"{institution}_{quarter}_{timestamp}"
@@ -447,30 +397,26 @@ class StandaloneETL:
             
             output_files = []
             
-            # Core dataset
-            core_file = output_dir / f"{institution}_{quarter}_core_dataset.csv"
-            df.to_csv(core_file, index=False)
-            output_files.append(str(core_file))
-            
-            # Financial subset
-            financial_df = df[df['is_financial_content']]
-            if len(financial_df) > 0:
-                financial_file = output_dir / f"{institution}_{quarter}_financial_dataset.csv"
-                financial_df.to_csv(financial_file, index=False)
-                output_files.append(str(financial_file))
+            # Pure ETL dataset with taxonomy naming
+            quarter_clean = quarter.replace(" ", "_")
+            etl_file = output_dir / f"{institution}_{quarter_clean}_PureETL_{uploaded_by}_{timestamp}.csv"
+            df.to_csv(etl_file, index=False)
+            output_files.append(str(etl_file))
             
             if progress_callback:
-                progress_callback(1.0, "Processing complete!")
+                progress_callback(1.0, "ETL processing complete!")
             
             # Add to history
             self.history.insert(0, {
                 'timestamp': datetime.now().isoformat(),
                 'institution': institution,
                 'quarter': quarter,
+                'uploaded_by': uploaded_by,
                 'files': file_names,
                 'output_files': output_files,
                 'status': 'Success',
-                'record_count': len(df)
+                'record_count': len(df),
+                'approach': 'Pure ETL - Standardized taxonomy'
             })
             self.save_history()
             
@@ -484,11 +430,13 @@ class StandaloneETL:
                 'timestamp': datetime.now().isoformat(),
                 'institution': institution,
                 'quarter': quarter,
+                'uploaded_by': uploaded_by,
                 'files': file_names if 'file_names' in locals() else [],
                 'output_files': [],
                 'status': 'Failed',
                 'record_count': 0,
-                'error': error_msg
+                'error': error_msg,
+                'approach': 'Pure ETL - Standardized taxonomy'
             })
             self.save_history()
             
@@ -498,17 +446,20 @@ def main():
     """Main Streamlit application."""
     
     st.set_page_config(
-        page_title="Financial ETL Pipeline",
-        page_icon="📊",
+        page_title="Pure ETL Pipeline",
+        page_icon="🔧",
         layout="wide"
     )
     
     # Initialize ETL
-    etl = StandaloneETL()
+    etl = PureETL()
     
     # Header
-    st.title("📊 Financial Document ETL Pipeline")
-    st.markdown("**Standalone Version** - Transform financial documents into structured datasets")
+    st.title("🔧 Pure Financial Document ETL Pipeline")
+    st.markdown("**Data Engineering Focus** - Extract and structure data without analytical assumptions")
+    
+    # Taxonomy guide link
+    st.info("📋 **New!** Follow our [Taxonomy Guide](TAXONOMY_GUIDE.md) for standardized file naming and organization")
     
     # Check dependencies
     missing_deps = []
@@ -525,17 +476,47 @@ def main():
     with st.sidebar:
         st.header("🏛️ Institution Processing")
         
-        # Institution input
-        institution = st.text_input(
+        # Institution selection with standardized names
+        institutions = [
+            "JPMorgan", "BankOfAmerica", "Citigroup", "WellsFargo", "GoldmanSachs",
+            "MorganStanley", "USBancorp", "TrustFinancial", "PNCFinancial", "CapitalOne",
+            "HSBC", "Barclays", "Lloyds", "RoyalBankScotland", "StandardChartered",
+            "Deutsche", "UBS", "CreditSuisse", "BNPParibas", "SocGen",
+            "Other (Custom)"
+        ]
+        
+        institution_choice = st.selectbox(
             "Institution Name",
-            placeholder="e.g., JPMorgan Chase",
-            help="Enter the financial institution name"
+            institutions,
+            help="Select standardized institution name"
         )
         
-        # Quarter selection
-        quarters = ["Q1 2025", "Q2 2025", "Q3 2025", "Q4 2025", 
-                   "Q1 2024", "Q2 2024", "Q3 2024", "Q4 2024"]
-        quarter = st.selectbox("Quarter", quarters)
+        # Custom institution input if "Other" selected
+        if institution_choice == "Other (Custom)":
+            institution = st.text_input(
+                "Custom Institution",
+                placeholder="e.g., RegionalBank",
+                help="Use CamelCase format (no spaces)"
+            )
+        else:
+            institution = institution_choice
+        
+        # Quarter and Year selection
+        col1, col2 = st.columns(2)
+        with col1:
+            quarter = st.selectbox("Quarter", ["Q1", "Q2", "Q3", "Q4"])
+        with col2:
+            year = st.selectbox("Year", ["2025", "2024", "2026", "2023"])
+        
+        # User identification
+        uploaded_by = st.text_input(
+            "Uploaded By",
+            placeholder="e.g., JohnSmith",
+            help="Your name/ID (CamelCase format)"
+        )
+        
+        # Combine quarter and year for processing
+        quarter_year = f"{quarter} {year}"
         
         # File upload
         st.subheader("📁 Document Upload")
@@ -548,8 +529,8 @@ def main():
         
         # Process button
         process_button = st.button(
-            "🚀 Process Documents",
-            disabled=not (institution and uploaded_files),
+            "🔧 Extract & Structure Data",
+            disabled=not (institution and uploaded_files and uploaded_by),
             type="primary"
         )
     
@@ -557,16 +538,18 @@ def main():
     col1, col2 = st.columns([2, 1])
     
     with col1:
-        st.header("📋 Processing Status")
+        st.header("📋 ETL Processing Status")
         
         if process_button:
             if not institution:
                 st.error("Please enter an institution name")
             elif not uploaded_files:
                 st.error("Please upload at least one document")
+            elif not uploaded_by:
+                st.error("Please enter your name/ID in 'Uploaded By' field")
             else:
                 # Processing
-                st.info(f"Processing {len(uploaded_files)} documents for {institution} {quarter}...")
+                st.info(f"Processing {len(uploaded_files)} documents for {institution} {quarter_year} by {uploaded_by}...")
                 
                 # Progress tracking
                 progress_bar = st.progress(0)
@@ -578,15 +561,15 @@ def main():
                 
                 # Process files
                 output_files, record_count, status = etl.process_files(
-                    institution, quarter, uploaded_files, update_progress
+                    institution, quarter_year, uploaded_files, update_progress, uploaded_by
                 )
                 
                 if status == "Success":
-                    st.success(f"✅ Processing completed successfully!")
-                    st.info(f"Generated {record_count:,} records in {len(output_files)} files")
+                    st.success(f"✅ ETL processing completed successfully!")
+                    st.info(f"Extracted {record_count:,} structured records")
                     
                     # Download section
-                    st.subheader("📥 Download Results")
+                    st.subheader("📥 Download Pure ETL Dataset")
                     for output_file in output_files:
                         file_path = Path(output_file)
                         if file_path.exists():
@@ -598,10 +581,10 @@ def main():
                                     mime="text/csv"
                                 )
                 else:
-                    st.error(f"❌ Processing failed: {status}")
+                    st.error(f"❌ ETL processing failed: {status}")
         
         else:
-            st.info("👆 Upload documents and click 'Process Documents' to begin")
+            st.info("👆 Upload documents and click 'Extract & Structure Data' to begin")
             
             if uploaded_files:
                 st.subheader("📁 Uploaded Files")
@@ -616,10 +599,12 @@ def main():
             for record in etl.history[:8]:  # Show last 8
                 status_icon = "✅" if record['status'] == 'Success' else "❌"
                 
-                with st.expander(f"{status_icon} {record['institution']} - {record['quarter']}"):
+                with st.expander(f"{status_icon} {record['institution']} - {record['quarter']} - {record.get('uploaded_by', 'Unknown')}"):
                     st.write(f"**Date:** {record['timestamp'][:19]}")
                     st.write(f"**Status:** {record['status']}")
+                    st.write(f"**Uploaded By:** {record.get('uploaded_by', 'Unknown')}")
                     st.write(f"**Files:** {len(record['files'])}")
+                    st.write(f"**Approach:** {record.get('approach', 'Standard')}")
                     
                     if record['status'] == 'Success':
                         st.write(f"**Records:** {record['record_count']:,}")
@@ -636,7 +621,7 @@ def main():
     
     # Footer
     st.markdown("---")
-    st.markdown("**Features:** PDF/Excel/Text parsing • NLP processing • Multi-institution support • CSV export")
+    st.markdown("**Pure ETL Approach:** Extract → Structure → Export | Analysis happens downstream")
 
 if __name__ == "__main__":
     main()

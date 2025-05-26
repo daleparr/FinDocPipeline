@@ -1,0 +1,42 @@
+{
+  "bank_name": "RawDataBank",
+  "quarter": "Q1_2025",
+  "processing_date": "2025-05-26T12:11:13.528646",
+  "num_records": 693,
+  "topic_distribution": {
+    "Topic_Default": 683,
+    "market_economic_outlook": 3,
+    "loan_performance": 3,
+    "regulatory_issues": 2,
+    "risk_management": 1,
+    "capital_management": 1
+  },
+  "speaker_distribution": {
+    "UNKNOWN": 620,
+    "Mark Mason": 21,
+    "Operator": 14,
+    "Jane Fraser": 13,
+    "Saul Martinez": 3,
+    "Betsy Graseck": 3,
+    "Jennifer Landis": 2,
+    "Jim Mitchell": 2,
+    "Ken Usdin": 2,
+    "Mike Mayo": 2,
+    "John Mcdonald": 2,
+    "Ebrahim Poonawala": 2,
+    "Vivek Juneja": 2,
+    "Erika Najarian": 2,
+    "Gerard Cassidy": 2,
+    "Glenn Schorr": 1
+  },
+  "processing_pipeline": "v1.0",
+  "model_version": "BERTopic_v1.5",
+  "cleaning_parameters": {
+    "min_word_length": 3,
+    "max_word_length": 50,
+    "remove_numbers": true,
+    "remove_punctuation": true,
+    "remove_special_chars": true,
+    "remove_stopwords": true
+  }
+}

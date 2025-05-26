@@ -1,0 +1,27 @@
+{
+  "bank_name": "RawDataBank",
+  "quarter": "Q4_2024",
+  "processing_date": "2025-05-26T12:12:10.817638",
+  "num_records": 216,
+  "topic_distribution": {
+    "Topic_Default": 195,
+    "credit_and_asset_quality": 12,
+    "customer_segments": 4,
+    "m_and_a": 3,
+    "regulatory_issues": 2
+  },
+  "speaker_distribution": {
+    "UNKNOWN": 215,
+    "Note": 1
+  },
+  "processing_pipeline": "v1.0",
+  "model_version": "BERTopic_v1.5",
+  "cleaning_parameters": {
+    "min_word_length": 3,
+    "max_word_length": 50,
+    "remove_numbers": true,
+    "remove_punctuation": true,
+    "remove_special_chars": true,
+    "remove_stopwords": true
+  }
+}

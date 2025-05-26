@@ -1,0 +1,37 @@
+{
+  "bank_name": "RawDataBank",
+  "quarter": "Q4_2024",
+  "processing_date": "2025-05-26T12:12:35.048631",
+  "num_records": 636,
+  "topic_distribution": {
+    "Topic_Default": 626,
+    "regulatory_issues": 8,
+    "liquidity_and_funding": 1,
+    "credit_and_asset_quality": 1
+  },
+  "speaker_distribution": {
+    "UNKNOWN": 580,
+    "Mark Mason": 14,
+    "Operator": 12,
+    "Jane Fraser": 11,
+    "Mike Mayo": 3,
+    "Gerard Cassidy": 3,
+    "Jennifer Landis": 2,
+    "John Mcdonald": 2,
+    "Jim Mitchell": 2,
+    "Erika Najarian": 2,
+    "Ebrahim Poonawala": 2,
+    "Saul Martinez": 2,
+    "Betsy Graseck": 1
+  },
+  "processing_pipeline": "v1.0",
+  "model_version": "BERTopic_v1.5",
+  "cleaning_parameters": {
+    "min_word_length": 3,
+    "max_word_length": 50,
+    "remove_numbers": true,
+    "remove_punctuation": true,
+    "remove_special_chars": true,
+    "remove_stopwords": true
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "bank_name": "Citigroup",
+  "quarter": "Q1 2025",
+  "processing_date": "2025-05-23T13:20:53.628868",
+  "num_records": 1,
+  "topic_distribution": {
+    "Topic_0": 1
+  },
+  "speaker_distribution": {
+    "unknown": 1
+  },
+  "processing_pipeline": "v1.0",
+  "model_version": "BERTopic_v1.5",
+  "cleaning_parameters": {
+    "min_word_length": 3,
+    "max_word_length": 50,
+    "remove_numbers": true,
+    "remove_punctuation": true,
+    "remove_special_chars": true,
+    "remove_stopwords": true
+  }
+}

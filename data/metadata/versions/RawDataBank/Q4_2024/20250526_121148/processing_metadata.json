@@ -1,0 +1,32 @@
+{
+  "bank_name": "RawDataBank",
+  "quarter": "Q4_2024",
+  "processing_date": "2025-05-26T12:11:48.593385",
+  "num_records": 419,
+  "topic_distribution": {
+    "Topic_Default": 386,
+    "m_and_a": 14,
+    "customer_segments": 10,
+    "liquidity_and_funding": 2,
+    "capital_management": 2,
+    "regulatory_issues": 2,
+    "credit_and_asset_quality": 2,
+    "loan_performance": 1
+  },
+  "speaker_distribution": {
+    "UNKNOWN": 416,
+    "Personal Banking\nSimplify The Organization\nData Enhancements\nAnd Management Structure\nGrow Commercial Banking\nClient Segment\nNote": 1,
+    "A\nT\nP\nT\nV E R A G E T A N\nS E R V Ic E S\nM A R K E T S\nB A N K In G\nW E A Lt H\nU S P B\nA Ll O T H E R\nO T A L C It Ig R O\nLu S": 1,
+    "Personal Banking\nCoc": 1
+  },
+  "processing_pipeline": "v1.0",
+  "model_version": "BERTopic_v1.5",
+  "cleaning_parameters": {
+    "min_word_length": 3,
+    "max_word_length": 50,
+    "remove_numbers": true,
+    "remove_punctuation": true,
+    "remove_special_chars": true,
+    "remove_stopwords": true
+  }
+}

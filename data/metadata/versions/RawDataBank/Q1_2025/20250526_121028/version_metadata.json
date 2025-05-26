@@ -1,0 +1,19 @@
+{
+  "version_id": "20250526_121028",
+  "bank_name": "RawDataBank",
+  "quarter": "Q1_2025",
+  "created_at": "2025-05-26T12:10:28.028682",
+  "version_info": {
+    "processing_pipeline": "v1.0",
+    "model_version": "BERTopic_v1.5",
+    "cleaning_parameters": {
+      "min_word_length": 3,
+      "max_word_length": 50,
+      "remove_numbers": true,
+      "remove_punctuation": true,
+      "remove_special_chars": true,
+      "remove_stopwords": true
+    },
+    "num_records": 208
+  }
+}

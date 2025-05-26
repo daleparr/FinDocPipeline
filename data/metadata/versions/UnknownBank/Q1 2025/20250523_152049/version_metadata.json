@@ -1,0 +1,19 @@
+{
+  "version_id": "20250523_152049",
+  "bank_name": "UnknownBank",
+  "quarter": "Q1 2025",
+  "created_at": "2025-05-23T15:20:49.405502",
+  "version_info": {
+    "processing_pipeline": "v1.0",
+    "model_version": "BERTopic_v1.5",
+    "cleaning_parameters": {
+      "min_word_length": 3,
+      "max_word_length": 50,
+      "remove_numbers": true,
+      "remove_punctuation": true,
+      "remove_special_chars": true,
+      "remove_stopwords": true
+    },
+    "num_records": 2
+  }
+}

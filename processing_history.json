@@ -1,0 +1,46 @@
+[
+  {
+    "timestamp": "2025-05-26T16:36:45.856168",
+    "institution": "Citigroup",
+    "quarter": "Q1 2025",
+    "files": [
+      "2025fqtr1rslt.xlsx",
+      "2025fsqtr1rslt.pdf",
+      "2025prqtr1rslt.pdf",
+      "transcript.pdf"
+    ],
+    "output_files": [],
+    "status": "Failed",
+    "record_count": 0
+  },
+  {
+    "timestamp": "2025-05-26T13:39:30.121579",
+    "institution": "Citigroup",
+    "quarter": "Q1 2024",
+    "files": [
+      "4Q24-earnings-presentation.pdf",
+      "4Q24-earnings-press-release.pdf",
+      "4Q24-Earnings-Transcript.pdf",
+      "2024fsqtr4rslt.pdf",
+      "Q42024-Financial-Supplement.xlsx"
+    ],
+    "output_files": [],
+    "status": "Failed",
+    "record_count": 0
+  },
+  {
+    "timestamp": "2025-05-26T13:35:55.501601",
+    "institution": "Citigroup",
+    "quarter": "Q4 2025",
+    "files": [
+      "4Q24-earnings-presentation.pdf",
+      "4Q24-earnings-press-release.pdf",
+      "4Q24-Earnings-Transcript.pdf",
+      "2024fsqtr4rslt.pdf",
+      "Q42024-Financial-Supplement.xlsx"
+    ],
+    "output_files": [],
+    "status": "Failed",
+    "record_count": 0
+  }
+]

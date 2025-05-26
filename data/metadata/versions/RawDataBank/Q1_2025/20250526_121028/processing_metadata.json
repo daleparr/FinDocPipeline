@@ -1,0 +1,27 @@
+{
+  "bank_name": "RawDataBank",
+  "quarter": "Q1_2025",
+  "processing_date": "2025-05-26T12:10:28.027082",
+  "num_records": 208,
+  "topic_distribution": {
+    "Topic_Default": 204,
+    "m_and_a": 2,
+    "market_economic_outlook": 1,
+    "credit_and_asset_quality": 1
+  },
+  "speaker_distribution": {
+    "UNKNOWN": 206,
+    "Contacts": 1,
+    "The Live Webcast Of The Presentation Can Also Be Accessed At\nHttps": 1
+  },
+  "processing_pipeline": "v1.0",
+  "model_version": "BERTopic_v1.5",
+  "cleaning_parameters": {
+    "min_word_length": 3,
+    "max_word_length": 50,
+    "remove_numbers": true,
+    "remove_punctuation": true,
+    "remove_special_chars": true,
+    "remove_stopwords": true
+  }
+}

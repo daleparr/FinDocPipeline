@@ -1,0 +1,26 @@
+{
+  "bank_name": "RawDataBank",
+  "quarter": "Q4_2024",
+  "processing_date": "2025-05-26T12:11:27.556380",
+  "num_records": 218,
+  "topic_distribution": {
+    "Topic_Default": 215,
+    "regulatory_issues": 2,
+    "m_and_a": 1
+  },
+  "speaker_distribution": {
+    "UNKNOWN": 216,
+    "The Live Webcast Of The Presentation Can Also Be Accessed At\nHttps": 1,
+    "Contacts": 1
+  },
+  "processing_pipeline": "v1.0",
+  "model_version": "BERTopic_v1.5",
+  "cleaning_parameters": {
+    "min_word_length": 3,
+    "max_word_length": 50,
+    "remove_numbers": true,
+    "remove_punctuation": true,
+    "remove_special_chars": true,
+    "remove_stopwords": true
+  }
+}

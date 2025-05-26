@@ -1,0 +1,22 @@
+{
+  "bank_name": "RawDataBank",
+  "quarter": "Q4_2024",
+  "processing_date": "2025-05-26T12:12:20.400369",
+  "num_records": 253,
+  "topic_distribution": {
+    "Topic_Default": 253
+  },
+  "speaker_distribution": {
+    "UNKNOWN": 253
+  },
+  "processing_pipeline": "v1.0",
+  "model_version": "BERTopic_v1.5",
+  "cleaning_parameters": {
+    "min_word_length": 3,
+    "max_word_length": 50,
+    "remove_numbers": true,
+    "remove_punctuation": true,
+    "remove_special_chars": true,
+    "remove_stopwords": true
+  }
+}

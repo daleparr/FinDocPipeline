@@ -1,0 +1,27 @@
+{
+  "bank_name": "UnknownBank",
+  "quarter": "Q1 2025",
+  "processing_date": "2025-05-26T10:33:25.464111",
+  "num_records": 23,
+  "topic_distribution": {
+    "credit_and_asset_quality": 15,
+    "Topic_Default": 5,
+    "m_and_a": 1,
+    "customer_segments": 1,
+    "regulatory_issues": 1
+  },
+  "speaker_distribution": {
+    "unknown": 23
+  },
+  "processing_pipeline": "v1.0",
+  "model_version": "BERTopic_v1.5",
+  "cleaning_parameters": {
+    "min_word_length": 3,
+    "max_word_length": 50,
+    "remove_numbers": true,
+    "remove_punctuation": true,
+    "remove_special_chars": true,
+    "remove_stopwords": true
+  },
+  "document_type": "supplement"
+}

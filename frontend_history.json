@@ -1,0 +1,55 @@
+[
+  {
+    "timestamp": "2025-05-26T16:16:32.424178",
+    "institution": "Citigroup",
+    "quarter": "Q1 2025",
+    "files": [
+      "2025fqtr1rslt.xlsx",
+      "2025fsqtr1rslt.pdf",
+      "2025prqtr1rslt.pdf",
+      "transcript.pdf"
+    ],
+    "output_files": [
+      "frontend_outputs\\Citigroup_Q1 2025_20250526_161630\\Citigroup_Q1 2025_core_dataset.csv",
+      "frontend_outputs\\Citigroup_Q1 2025_20250526_161630\\Citigroup_Q1 2025_financial_dataset.csv"
+    ],
+    "status": "Success",
+    "record_count": 1529
+  },
+  {
+    "timestamp": "2025-05-26T15:00:16.621739",
+    "institution": "Citigroup",
+    "quarter": "Q4 2024",
+    "files": [
+      "4Q24-earnings-presentation.pdf",
+      "4Q24-earnings-press-release.pdf",
+      "4Q24-Earnings-Transcript.pdf",
+      "2024fsqtr4rslt.pdf",
+      "Q42024-Financial-Supplement.xlsx"
+    ],
+    "output_files": [
+      "frontend_outputs\\Citigroup_Q4 2024_20250526_150007\\Citigroup_Q4 2024_core_dataset.csv",
+      "frontend_outputs\\Citigroup_Q4 2024_20250526_150007\\Citigroup_Q4 2024_financial_dataset.csv"
+    ],
+    "status": "Success",
+    "record_count": 3209
+  },
+  {
+    "timestamp": "2025-05-26T13:43:05.004785",
+    "institution": "Citigroup",
+    "quarter": "Q4 2024",
+    "files": [
+      "4Q24-earnings-presentation.pdf",
+      "4Q24-earnings-press-release.pdf",
+      "4Q24-Earnings-Transcript.pdf",
+      "2024fsqtr4rslt.pdf",
+      "Q42024-Financial-Supplement.xlsx"
+    ],
+    "output_files": [
+      "frontend_outputs\\Citigroup_Q4 2024_20250526_134300\\Citigroup_Q4 2024_core_dataset.csv",
+      "frontend_outputs\\Citigroup_Q4 2024_20250526_134300\\Citigroup_Q4 2024_financial_dataset.csv"
+    ],
+    "status": "Success",
+    "record_count": 3209
+  }
+]
