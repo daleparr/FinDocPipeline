@@ -1,0 +1,315 @@
+# Seed Topics Configuration for Financial Risk Monitoring
+# Each topic includes primary and secondary keywords with confidence thresholds
+
+seed_topics:
+  credit_risk:
+    keywords:
+      primary: 
+        - loan
+        - credit
+        - default
+        - provision
+        - npl
+        - charge-off
+        - delinquency
+        - impairment
+        - allowance
+        - writeoff
+      secondary:
+        - borrower
+        - underwriting
+        - recovery
+        - workout
+        - restructuring
+        - collateral
+        - mortgage
+        - consumer
+        - commercial
+        - portfolio
+    weight: 1.0
+    min_confidence: 0.7
+    description: "Credit risk including loan losses, provisions, and credit quality"
+    
+  operational_risk:
+    keywords:
+      primary:
+        - cyber
+        - fraud
+        - compliance
+        - regulatory
+        - operational
+        - control
+        - breach
+        - incident
+        - failure
+        - disruption
+      secondary:
+        - vulnerability
+        - governance
+        - audit
+        - internal
+        - process
+        - system
+        - technology
+        - security
+        - risk management
+        - oversight
+    weight: 1.0
+    min_confidence: 0.7
+    description: "Operational risks including cyber, fraud, and compliance issues"
+    
+  market_risk:
+    keywords:
+      primary:
+        - trading
+        - market
+        - volatility
+        - var
+        - stress
+        - liquidity
+        - correlation
+        - exposure
+        - hedge
+        - derivative
+      secondary:
+        - portfolio
+        - counterparty
+        - interest rate
+        - foreign exchange
+        - equity
+        - commodity
+        - credit spread
+        - basis
+        - duration
+        - convexity
+    weight: 1.0
+    min_confidence: 0.7
+    description: "Market risk including trading, liquidity, and market volatility"
+    
+  regulatory_risk:
+    keywords:
+      primary:
+        - regulation
+        - capital
+        - basel
+        - stress test
+        - ccar
+        - cecl
+        - ifrs
+        - supervisor
+        - examination
+        - enforcement
+      secondary:
+        - penalty
+        - consent
+        - requirement
+        - ratio
+        - buffer
+        - tier
+        - leverage
+        - liquidity coverage
+        - net stable funding
+        - resolution
+    weight: 1.0
+    min_confidence: 0.7
+    description: "Regulatory compliance and capital adequacy risks"
+    
+  macroeconomic_risk:
+    keywords:
+      primary:
+        - inflation
+        - recession
+        - gdp
+        - unemployment
+        - interest rate
+        - fed
+        - monetary policy
+        - economic
+        - downturn
+        - cycle
+      secondary:
+        - fiscal
+        - central bank
+        - yield curve
+        - growth
+        - employment
+        - consumer spending
+        - business investment
+        - housing
+        - commodity prices
+        - geopolitical
+    weight: 1.0
+    min_confidence: 0.6
+    description: "Macroeconomic risks and market conditions"
+    
+  climate_risk:
+    keywords:
+      primary:
+        - climate
+        - esg
+        - sustainability
+        - carbon
+        - environmental
+        - transition
+        - physical risk
+        - stranded assets
+        - green finance
+        - tcfd
+      secondary:
+        - renewable
+        - emissions
+        - net zero
+        - sustainable finance
+        - climate change
+        - weather
+        - natural disaster
+        - flood
+        - drought
+        - temperature
+    weight: 0.8
+    min_confidence: 0.6
+    description: "Climate and environmental risks including transition and physical risks"
+    
+  digital_transformation:
+    keywords:
+      primary:
+        - digital
+        - technology
+        - fintech
+        - blockchain
+        - ai
+        - automation
+        - cloud
+        - innovation
+        - disruption
+        - platform
+      secondary:
+        - api
+        - data analytics
+        - machine learning
+        - artificial intelligence
+        - robotics
+        - mobile
+        - online
+        - cyber security
+        - data privacy
+        - digital banking
+    weight: 0.8
+    min_confidence: 0.6
+    description: "Digital transformation and technology risks"
+    
+  geopolitical_risk:
+    keywords:
+      primary:
+        - geopolitical
+        - sanctions
+        - trade war
+        - brexit
+        - china
+        - russia
+        - political
+        - sovereign
+        - country risk
+        - emerging markets
+      secondary:
+        - tariff
+        - embargo
+        - conflict
+        - war
+        - election
+        - policy
+        - international
+        - cross-border
+        - foreign
+        - diplomatic
+    weight: 0.7
+    min_confidence: 0.6
+    description: "Geopolitical risks and international tensions"
+
+# Risk escalation language patterns
+risk_escalation_patterns:
+  deteriorating:
+    - deteriorating
+    - worsening
+    - declining
+    - weakening
+    - challenging
+    - pressure
+    - stress
+    - concern
+    - worry
+    - issue
+  
+  mitigation:
+    - improving
+    - strengthening
+    - robust
+    - stable
+    - resilient
+    - strong
+    - healthy
+    - solid
+    - confident
+    - optimistic
+
+# Uncertainty markers
+uncertainty_markers:
+  - may
+  - might
+  - could
+  - would
+  - should
+  - potential
+  - possible
+  - uncertain
+  - unclear
+  - unknown
+  - estimate
+  - expect
+  - believe
+  - think
+  - assume
+
+# Hedging language
+hedging_language:
+  - approximately
+  - roughly
+  - around
+  - about
+  - generally
+  - typically
+  - usually
+  - likely
+  - probably
+  - potentially
+  - somewhat
+  - relatively
+  - fairly
+  - quite
+  - rather
+
+# Financial formality indicators
+formality_indicators:
+  high:
+    - pursuant
+    - notwithstanding
+    - aforementioned
+    - heretofore
+    - whereas
+    - therefore
+    - furthermore
+    - moreover
+    - consequently
+    - accordingly
+  
+  low:
+    - really
+    - pretty
+    - kind of
+    - sort of
+    - basically
+    - actually
+    - obviously
+    - clearly
+    - definitely
+    - absolutely

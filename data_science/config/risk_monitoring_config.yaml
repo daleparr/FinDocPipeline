@@ -1,0 +1,171 @@
+# Risk Monitoring Pipeline Configuration
+system:
+  name: "Financial Risk Monitoring Pipeline"
+  version: "2.0.0"
+  environment: "development"
+
+# Data sources configuration
+data_sources:
+  banks:
+    us_banks:
+      - jpmorgan_chase
+      - bank_of_america
+      - wells_fargo
+      - citigroup
+    european_banks:
+      - hsbc
+      - barclays
+      - deutsche_bank
+      - ubs
+  
+  quarters:
+    - Q1_2023
+    - Q2_2023
+    - Q3_2023
+    - Q4_2023
+    - Q1_2024
+    - Q2_2024
+    - Q3_2024
+    - Q4_2024
+    - Q1_2025
+
+# Processing configuration
+processing:
+  batch_size: 1000
+  parallel_workers: 4
+  memory_limit: "16GB"
+  min_sentence_length: 10
+  max_sentence_length: 1000
+
+# Topic modeling configuration
+topic_modeling:
+  seed_threshold: 3  # minimum keyword matches for seed assignment
+  emergent_min_cluster_size: 50
+  coherence_threshold: 0.4
+  max_topics: 50
+  min_topic_size: 25
+  embedding_model: "all-MiniLM-L6-v2"
+  use_financial_embeddings: true
+  
+# Sentiment analysis configuration
+sentiment_analysis:
+  model_name: "ProsusAI/finbert"
+  batch_size: 32
+  confidence_threshold: 0.7
+  use_gpu: true
+  temperature_scaling: true
+  
+# Tone analysis configuration
+tone_analysis:
+  hedging_threshold: 0.3
+  uncertainty_threshold: 0.4
+  formality_threshold: 0.5
+  complexity_threshold: 0.6
+  
+# Phase 3: Statistical Analysis Configuration
+
+# Time series analysis configuration
+time_series:
+  trend_window: 4
+  seasonality_periods: [4, 12]
+  anomaly_threshold: 2.5
+  min_periods: 3
+
+# Statistical analysis configuration
+statistics:
+  significance_level: 0.05
+  correlation_threshold: 0.3
+
+# Enhanced anomaly detection configuration
+anomaly_detection:
+  contamination: 0.1
+  z_threshold: 2.5
+  iqr_multiplier: 1.5
+  ensemble_threshold: 0.6
+  method_weights:
+    isolation_forest: 0.25
+    elliptic_envelope: 0.25
+    z_score: 0.2
+    iqr: 0.15
+    dbscan: 0.15
+  # Legacy settings for backward compatibility
+  contamination_rate: 0.05
+  min_historical_quarters: 8
+  significance_level: 0.01
+  effect_size_threshold: 0.3
+  cross_bank_threshold: 2
+  persistence_quarters: 2
+
+# Risk scoring configuration
+risk_scoring:
+  weights:
+    sentiment_risk: 0.25
+    topic_risk: 0.20
+    speaker_risk: 0.15
+    temporal_risk: 0.15
+    anomaly_risk: 0.15
+    volatility_risk: 0.10
+  thresholds:
+    low: 0.3
+    medium: 0.6
+    high: 0.8
+  topic_weights:
+    credit_risk: 1.0
+    operational_risk: 0.9
+    market_risk: 0.8
+    regulatory_risk: 0.8
+    liquidity_risk: 0.9
+    capital_management: 0.7
+    strategic_risk: 0.6
+    esg_sustainability: 0.4
+    miscellaneous: 0.2
+
+# Speaker importance weights
+speaker_weights:
+  CEO: 1.0
+  CFO: 0.9
+  CRO: 0.8
+  CCO: 0.7
+  CTO: 0.6
+  Analyst: 0.3
+  UNKNOWN: 0.1
+  
+# Alert configuration
+alerts:
+  severity_levels:
+    critical: 0.8
+    high: 0.6
+    medium: 0.4
+    low: 0.2
+  notification_channels:
+    - email
+    - slack
+    - dashboard
+  max_alerts_per_day: 50
+  
+# Speaker weighting for sentiment aggregation
+speaker_weights:
+  CEO: 1.0
+  CFO: 0.9
+  CRO: 1.0  # Chief Risk Officer
+  CCO: 0.8  # Chief Credit Officer
+  COO: 0.7  # Chief Operating Officer
+  Analyst: 0.3
+  Moderator: 0.1
+  Other: 0.2
+  Unknown: 0.1
+
+# Output configuration
+output:
+  save_intermediate: true
+  export_formats: ["parquet", "json"]
+  dashboard_refresh_hours: 6
+  model_save_frequency: "quarterly"
+  
+# Logging configuration
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  log_file: "logs/risk_monitoring.log"
+  max_file_size: "100MB"
+  backup_count: 5
