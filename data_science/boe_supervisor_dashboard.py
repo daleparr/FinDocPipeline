@@ -999,7 +999,7 @@ class BoESupervisorDashboard:
             'topic_sentiments': topic_sentiments,
             'insights': insights
         }
-def _generate_emerging_topics_analysis(self):
+    def _generate_emerging_topics_analysis(self):
         """Generate emerging topics analysis comparing recent vs historical periods"""
         
         # Define time periods for comparison
