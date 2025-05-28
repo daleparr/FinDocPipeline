@@ -1,0 +1,81 @@
+# Advanced Emerging Topics Configuration
+
+# Time period settings
+temporal_analysis:
+  baseline_period: 4          # quarters for historical baseline
+  recent_period: 2            # quarters for recent analysis
+  minimum_data_points: 5      # minimum data points for analysis
+
+# Statistical significance settings
+statistical_testing:
+  significance_threshold: 0.05
+  confidence_level: 0.95
+  multiple_testing_correction: "bonferroni"
+  effect_size_thresholds:
+    small: 0.2
+    medium: 0.5
+    large: 0.8
+
+# Growth rate thresholds
+growth_classification:
+  emerging: 50.0              # 50% increase
+  rapid: 100.0                # 100% increase
+  explosive: 250.0            # 250% increase
+  declining: -25.0            # 25% decrease
+
+# Speaker authority weights
+speaker_weights:
+  "CEO": 1.0
+  "CFO": 0.9
+  "Chief Risk Officer": 0.9
+  "Chief Operating Officer": 0.8
+  "Chief Technology Officer": 0.8
+  "Chief Compliance Officer": 0.8
+  "Chief Data Officer": 0.8
+  "Head of Risk": 0.7
+  "Head of Compliance": 0.7
+  "Senior Manager": 0.6
+  "Manager": 0.5
+  "Analyst": 0.3
+  "Unknown": 0.1
+
+# Regulatory urgency calculation
+urgency_scoring:
+  growth_weight: 0.4
+  sentiment_weight: 0.3
+  speaker_weight: 0.2
+  significance_weight: 0.1
+  
+  urgency_thresholds:
+    critical: 5
+    high: 3
+    medium: 2
+    low: 1
+
+# Topic filtering
+topic_filtering:
+  exclude_topics:
+    - "Unknown"
+    - "Other"
+    - "General"
+    - ""
+  minimum_mentions: 3         # minimum mentions to consider topic
+
+# Visualization settings
+visualization:
+  color_scheme:
+    critical: "#d32f2f"
+    high: "#f57c00"
+    medium: "#fbc02d"
+    low: "#388e3c"
+  
+  chart_settings:
+    trend_heatmap:
+      width: 800
+      height: 600
+    scatter_plot:
+      width: 700
+      height: 500
+    timeline:
+      width: 900
+      height: 400

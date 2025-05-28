@@ -1,0 +1,14 @@
+{
+  "bank": "TestBank",
+  "quarter": "Q1 2025",
+  "transcript": [
+    {
+      "speaker": "CEO",
+      "text": "Welcome to our quarterly earnings call."
+    },
+    {
+      "speaker": "CFO",
+      "text": "Our financial results this quarter have been strong."
+    }
+  ]
+}
