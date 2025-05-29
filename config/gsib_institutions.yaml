@@ -1,0 +1,511 @@
+# Global Systemically Important Banks (G-SIBs) Configuration
+# Complete list of all 30 G-SIBs as designated by Financial Stability Board (FSB)
+# For Yahoo Finance Market Intelligence Integration
+# Bank of England Mosaic Lens Platform
+
+global_gsibs:
+  # BUCKET 5 - Highest Systemic Importance (Empty as of 2024)
+  
+  # BUCKET 4 - Very High Systemic Importance
+  bucket_4:
+    - ticker: "JPM"
+      name: "JPMorgan Chase & Co."
+      full_name: "JPMorgan Chase & Co."
+      country: "United States"
+      market_cap_tier: 1
+      systemic_weight: 0.30
+      fsb_bucket: 4
+      sector: "Investment Banking & Brokerage"
+      earnings_frequency: "quarterly"
+      typical_earnings_months: [1, 4, 7, 10]
+      
+  # BUCKET 3 - High Systemic Importance
+  bucket_3:
+    - ticker: "BAC"
+      name: "Bank of America Corporation"
+      full_name: "Bank of America Corporation"
+      country: "United States"
+      market_cap_tier: 1
+      systemic_weight: 0.25
+      fsb_bucket: 3
+      sector: "Investment Banking & Brokerage"
+      earnings_frequency: "quarterly"
+      typical_earnings_months: [1, 4, 7, 10]
+      
+    - ticker: "C"
+      name: "Citigroup Inc."
+      full_name: "Citigroup Inc."
+      country: "United States"
+      market_cap_tier: 1
+      systemic_weight: 0.25
+      fsb_bucket: 3
+      sector: "Investment Banking & Brokerage"
+      earnings_frequency: "quarterly"
+      typical_earnings_months: [1, 4, 7, 10]
+      
+    - ticker: "HSBA.L"
+      name: "HSBC Holdings plc"
+      full_name: "HSBC Holdings plc"
+      country: "United Kingdom"
+      market_cap_tier: 1
+      systemic_weight: 0.25
+      fsb_bucket: 3
+      sector: "Investment Banking & Brokerage"
+      earnings_frequency: "quarterly"
+      typical_earnings_months: [2, 5, 8, 11]
+
+  # BUCKET 2 - Medium-High Systemic Importance
+  bucket_2:
+    - ticker: "WFC"
+      name: "Wells Fargo & Company"
+      full_name: "Wells Fargo & Company"
+      country: "United States"
+      market_cap_tier: 1
+      systemic_weight: 0.20
+      fsb_bucket: 2
+      sector: "Investment Banking & Brokerage"
+      earnings_frequency: "quarterly"
+      typical_earnings_months: [1, 4, 7, 10]
+      
+    - ticker: "GS"
+      name: "Goldman Sachs Group Inc."
+      full_name: "The Goldman Sachs Group, Inc."
+      country: "United States"
+      market_cap_tier: 1
+      systemic_weight: 0.20
+      fsb_bucket: 2
+      sector: "Investment Banking & Brokerage"
+      earnings_frequency: "quarterly"
+      typical_earnings_months: [1, 4, 7, 10]
+      
+    - ticker: "MS"
+      name: "Morgan Stanley"
+      full_name: "Morgan Stanley"
+      country: "United States"
+      market_cap_tier: 1
+      systemic_weight: 0.20
+      fsb_bucket: 2
+      sector: "Investment Banking & Brokerage"
+      earnings_frequency: "quarterly"
+      typical_earnings_months: [1, 4, 7, 10]
+
+  # BUCKET 1 - Standard G-SIB Systemic Importance
+  bucket_1:
+    # United States
+    - ticker: "BK"
+      name: "Bank of New York Mellon Corp"
+      full_name: "The Bank of New York Mellon Corporation"
+      country: "United States"
+      market_cap_tier: 2
+      systemic_weight: 0.15
+      fsb_bucket: 1
+      sector: "Investment Banking & Brokerage"
+      earnings_frequency: "quarterly"
+      typical_earnings_months: [1, 4, 7, 10]
+      
+    - ticker: "STT"
+      name: "State Street Corporation"
+      full_name: "State Street Corporation"
+      country: "United States"
+      market_cap_tier: 2
+      systemic_weight: 0.15
+      fsb_bucket: 1
+      sector: "Investment Banking & Brokerage"
+      earnings_frequency: "quarterly"
+      typical_earnings_months: [1, 4, 7, 10]
+
+    # United Kingdom
+    - ticker: "BARC.L"
+      name: "Barclays PLC"
+      full_name: "Barclays PLC"
+      country: "United Kingdom"
+      market_cap_tier: 1
+      systemic_weight: 0.15
+      fsb_bucket: 1
+      sector: "Investment Banking & Brokerage"
+      earnings_frequency: "quarterly"
+      typical_earnings_months: [2, 5, 8, 11]
+      
+    - ticker: "LLOY.L"
+      name: "Lloyds Banking Group plc"
+      full_name: "Lloyds Banking Group plc"
+      country: "United Kingdom"
+      market_cap_tier: 2
+      systemic_weight: 0.15
+      fsb_bucket: 1
+      sector: "Investment Banking & Brokerage"
+      earnings_frequency: "quarterly"
+      typical_earnings_months: [2, 5, 8, 11]
+      
+    - ticker: "NWG.L"
+      name: "NatWest Group plc"
+      full_name: "NatWest Group plc"
+      country: "United Kingdom"
+      market_cap_tier: 2
+      systemic_weight: 0.15
+      fsb_bucket: 1
+      sector: "Investment Banking & Brokerage"
+      earnings_frequency: "quarterly"
+      typical_earnings_months: [2, 5, 8, 11]
+      
+    - ticker: "STAN.L"
+      name: "Standard Chartered PLC"
+      full_name: "Standard Chartered PLC"
+      country: "United Kingdom"
+      market_cap_tier: 2
+      systemic_weight: 0.15
+      fsb_bucket: 1
+      sector: "Investment Banking & Brokerage"
+      earnings_frequency: "quarterly"
+      typical_earnings_months: [2, 5, 8, 11]
+
+    # European Union
+    - ticker: "DBK.DE"
+      name: "Deutsche Bank AG"
+      full_name: "Deutsche Bank Aktiengesellschaft"
+      country: "Germany"
+      market_cap_tier: 2
+      systemic_weight: 0.15
+      fsb_bucket: 1
+      sector: "Investment Banking & Brokerage"
+      earnings_frequency: "quarterly"
+      typical_earnings_months: [2, 5, 8, 11]
+      
+    - ticker: "BNP.PA"
+      name: "BNP Paribas SA"
+      full_name: "BNP Paribas SA"
+      country: "France"
+      market_cap_tier: 1
+      systemic_weight: 0.15
+      fsb_bucket: 1
+      sector: "Investment Banking & Brokerage"
+      earnings_frequency: "quarterly"
+      typical_earnings_months: [2, 5, 8, 11]
+      
+    - ticker: "ACA.PA"
+      name: "Crédit Agricole SA"
+      full_name: "Crédit Agricole SA"
+      country: "France"
+      market_cap_tier: 2
+      systemic_weight: 0.15
+      fsb_bucket: 1
+      sector: "Investment Banking & Brokerage"
+      earnings_frequency: "quarterly"
+      typical_earnings_months: [2, 5, 8, 11]
+      
+    - ticker: "GLE.PA"
+      name: "Société Générale SA"
+      full_name: "Société Générale SA"
+      country: "France"
+      market_cap_tier: 2
+      systemic_weight: 0.15
+      fsb_bucket: 1
+      sector: "Investment Banking & Brokerage"
+      earnings_frequency: "quarterly"
+      typical_earnings_months: [2, 5, 8, 11]
+      
+    - ticker: "SAN.MC"
+      name: "Banco Santander SA"
+      full_name: "Banco Santander, S.A."
+      country: "Spain"
+      market_cap_tier: 1
+      systemic_weight: 0.15
+      fsb_bucket: 1
+      sector: "Investment Banking & Brokerage"
+      earnings_frequency: "quarterly"
+      typical_earnings_months: [2, 5, 8, 11]
+      
+    - ticker: "BBVA.MC"
+      name: "Banco Bilbao Vizcaya Argentaria SA"
+      full_name: "Banco Bilbao Vizcaya Argentaria, S.A."
+      country: "Spain"
+      market_cap_tier: 2
+      systemic_weight: 0.15
+      fsb_bucket: 1
+      sector: "Investment Banking & Brokerage"
+      earnings_frequency: "quarterly"
+      typical_earnings_months: [2, 5, 8, 11]
+      
+    - ticker: "ISP.MI"
+      name: "Intesa Sanpaolo SpA"
+      full_name: "Intesa Sanpaolo S.p.A."
+      country: "Italy"
+      market_cap_tier: 2
+      systemic_weight: 0.15
+      fsb_bucket: 1
+      sector: "Investment Banking & Brokerage"
+      earnings_frequency: "quarterly"
+      typical_earnings_months: [2, 5, 8, 11]
+      
+    - ticker: "UCG.MI"
+      name: "UniCredit SpA"
+      full_name: "UniCredit S.p.A."
+      country: "Italy"
+      market_cap_tier: 2
+      systemic_weight: 0.15
+      fsb_bucket: 1
+      sector: "Investment Banking & Brokerage"
+      earnings_frequency: "quarterly"
+      typical_earnings_months: [2, 5, 8, 11]
+      
+    - ticker: "INGA.AS"
+      name: "ING Groep NV"
+      full_name: "ING Groep N.V."
+      country: "Netherlands"
+      market_cap_tier: 2
+      systemic_weight: 0.15
+      fsb_bucket: 1
+      sector: "Investment Banking & Brokerage"
+      earnings_frequency: "quarterly"
+      typical_earnings_months: [2, 5, 8, 11]
+
+    # Switzerland
+    - ticker: "UBSG.SW"
+      name: "UBS Group AG"
+      full_name: "UBS Group AG"
+      country: "Switzerland"
+      market_cap_tier: 1
+      systemic_weight: 0.15
+      fsb_bucket: 1
+      sector: "Investment Banking & Brokerage"
+      earnings_frequency: "quarterly"
+      typical_earnings_months: [2, 5, 8, 11]
+
+    # Canada
+    - ticker: "RY.TO"
+      name: "Royal Bank of Canada"
+      full_name: "Royal Bank of Canada"
+      country: "Canada"
+      market_cap_tier: 1
+      systemic_weight: 0.15
+      fsb_bucket: 1
+      sector: "Investment Banking & Brokerage"
+      earnings_frequency: "quarterly"
+      typical_earnings_months: [2, 5, 8, 11]
+      
+    - ticker: "TD.TO"
+      name: "Toronto-Dominion Bank"
+      full_name: "The Toronto-Dominion Bank"
+      country: "Canada"
+      market_cap_tier: 1
+      systemic_weight: 0.15
+      fsb_bucket: 1
+      sector: "Investment Banking & Brokerage"
+      earnings_frequency: "quarterly"
+      typical_earnings_months: [2, 5, 8, 11]
+
+    # Japan
+    - ticker: "8411.T"
+      name: "Mizuho Financial Group Inc"
+      full_name: "Mizuho Financial Group, Inc."
+      country: "Japan"
+      market_cap_tier: 1
+      systemic_weight: 0.15
+      fsb_bucket: 1
+      sector: "Investment Banking & Brokerage"
+      earnings_frequency: "quarterly"
+      typical_earnings_months: [3, 6, 9, 12]
+      
+    - ticker: "8316.T"
+      name: "Sumitomo Mitsui Financial Group Inc"
+      full_name: "Sumitomo Mitsui Financial Group, Inc."
+      country: "Japan"
+      market_cap_tier: 1
+      systemic_weight: 0.15
+      fsb_bucket: 1
+      sector: "Investment Banking & Brokerage"
+      earnings_frequency: "quarterly"
+      typical_earnings_months: [3, 6, 9, 12]
+      
+    - ticker: "8306.T"
+      name: "Mitsubishi UFJ Financial Group Inc"
+      full_name: "Mitsubishi UFJ Financial Group, Inc."
+      country: "Japan"
+      market_cap_tier: 1
+      systemic_weight: 0.15
+      fsb_bucket: 1
+      sector: "Investment Banking & Brokerage"
+      earnings_frequency: "quarterly"
+      typical_earnings_months: [3, 6, 9, 12]
+
+    # China
+    - ticker: "1398.HK"
+      name: "Industrial and Commercial Bank of China Ltd"
+      full_name: "Industrial and Commercial Bank of China Limited"
+      country: "China"
+      market_cap_tier: 1
+      systemic_weight: 0.15
+      fsb_bucket: 1
+      sector: "Investment Banking & Brokerage"
+      earnings_frequency: "quarterly"
+      typical_earnings_months: [3, 6, 9, 12]
+      
+    - ticker: "3988.HK"
+      name: "Bank of China Ltd"
+      full_name: "Bank of China Limited"
+      country: "China"
+      market_cap_tier: 1
+      systemic_weight: 0.15
+      fsb_bucket: 1
+      sector: "Investment Banking & Brokerage"
+      earnings_frequency: "quarterly"
+      typical_earnings_months: [3, 6, 9, 12]
+      
+    - ticker: "0939.HK"
+      name: "China Construction Bank Corp"
+      full_name: "China Construction Bank Corporation"
+      country: "China"
+      market_cap_tier: 1
+      systemic_weight: 0.15
+      fsb_bucket: 1
+      sector: "Investment Banking & Brokerage"
+      earnings_frequency: "quarterly"
+      typical_earnings_months: [3, 6, 9, 12]
+      
+    - ticker: "0001.HK"
+      name: "Agricultural Bank of China Ltd"
+      full_name: "Agricultural Bank of China Limited"
+      country: "China"
+      market_cap_tier: 1
+      systemic_weight: 0.15
+      fsb_bucket: 1
+      sector: "Investment Banking & Brokerage"
+      earnings_frequency: "quarterly"
+      typical_earnings_months: [3, 6, 9, 12]
+
+  # Additional Regional G-SIBs for comprehensive coverage
+  regional_gsibs:
+    # Nordic
+    - ticker: "NDA-SE.ST"
+      name: "Nordea Bank Abp"
+      full_name: "Nordea Bank Abp"
+      country: "Finland"
+      market_cap_tier: 2
+      systemic_weight: 0.10
+      fsb_bucket: "Regional"
+      sector: "Investment Banking & Brokerage"
+      earnings_frequency: "quarterly"
+      typical_earnings_months: [2, 5, 8, 11]
+
+# Market Intelligence Configuration
+market_intelligence_config:
+  correlation_thresholds:
+    low_correlation: 0.3
+    medium_correlation: 0.5
+    high_correlation: 0.7
+    systemic_risk: 0.8
+    
+  volatility_thresholds:
+    normal: 1.0          # 1 standard deviation
+    elevated: 2.0        # 2 standard deviations
+    high: 3.0           # 3 standard deviations
+    extreme: 4.0        # 4 standard deviations
+    
+  volume_thresholds:
+    normal: 1.5         # 1.5x average volume
+    elevated: 2.0       # 2x average volume
+    high: 3.0          # 3x average volume
+    extreme: 5.0       # 5x average volume
+    
+  earnings_windows:
+    pre_earnings_days: 5
+    post_earnings_days: 3
+    extended_analysis_days: 14
+    intraday_monitoring_minutes: 15
+    
+  alert_severity_mapping:
+    low: 0.3
+    medium: 0.5
+    high: 0.7
+    critical: 0.9
+
+# Risk Weighting Factors
+risk_weights:
+  market_cap_tier_1: 1.0      # Largest banks
+  market_cap_tier_2: 0.8      # Medium-large banks
+  market_cap_tier_3: 0.6      # Smaller G-SIBs
+  
+  regional_weights:
+    us: 1.0
+    uk: 0.9
+    eu: 0.8
+    other: 0.7
+    
+  sector_correlation_factors:
+    investment_banking: 1.0
+    commercial_banking: 0.8
+    retail_banking: 0.6
+
+# Data Collection Settings
+data_collection:
+  yahoo_finance:
+    intervals:
+      real_time: "1m"
+      intraday: "5m"
+      daily: "1d"
+      weekly: "1wk"
+      monthly: "1mo"
+    
+    periods:
+      short_term: "1mo"
+      medium_term: "6mo"
+      long_term: "2y"
+      historical: "5y"
+    
+    rate_limits:
+      requests_per_hour: 2000
+      requests_per_day: 48000
+      retry_attempts: 3
+      timeout_seconds: 30
+      
+  data_quality:
+    min_data_points: 20
+    max_missing_days: 5
+    outlier_threshold: 4.0  # standard deviations
+    
+# Monitoring and Alerting
+monitoring:
+  alert_channels:
+    dashboard: true
+    email: true
+    sms: false
+    api_webhook: true
+    
+  notification_rules:
+    critical_alerts:
+      immediate: true
+      escalation_minutes: 15
+      max_recipients: 10
+      
+    high_alerts:
+      immediate: false
+      batch_frequency_minutes: 30
+      max_recipients: 5
+      
+    medium_alerts:
+      immediate: false
+      batch_frequency_minutes: 60
+      max_recipients: 3
+      
+    low_alerts:
+      immediate: false
+      batch_frequency_minutes: 240
+      max_recipients: 2
+
+# Integration Settings
+integration:
+  nlp_correlation:
+    sentiment_threshold: -0.3
+    topic_relevance_threshold: 0.5
+    time_window_hours: 24
+    
+  existing_systems:
+    etl_pipeline: true
+    statistical_validation: true
+    audit_trail: true
+    dashboard_integration: true
+    
+  database:
+    market_data_retention_days: 1825  # 5 years
+    correlation_data_retention_days: 365  # 1 year
+    alert_data_retention_days: 90  # 3 months

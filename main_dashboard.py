@@ -43,6 +43,13 @@ try:
 except ImportError:
     TECHNICAL_VALIDATION_AVAILABLE = False
 
+# Import Market Intelligence components
+try:
+    from src.market_intelligence import get_market_intelligence_dashboard
+    MARKET_INTELLIGENCE_AVAILABLE = True
+except ImportError:
+    MARKET_INTELLIGENCE_AVAILABLE = False
+
 # Page configuration
 st.set_page_config(
     page_title="BoE Supervisor Risk Assessment Dashboard",
@@ -146,6 +153,10 @@ class BoESupervisorDashboard:
             self.validation_engine = StatisticalValidationEngine()
             self.viz_engine = TechnicalVisualizationEngine()
         
+        # Initialize market intelligence components
+        if MARKET_INTELLIGENCE_AVAILABLE:
+            self.market_intelligence_dashboard = get_market_intelligence_dashboard()
+        
         # Initialize session state
         if 'analysis_results' not in st.session_state:
             st.session_state.analysis_results = None
@@ -246,13 +257,66 @@ class BoESupervisorDashboard:
         with col2:
             st.subheader("🏛️ Institution Configuration")
             
-            # Major UK/EU banks for BoE supervision
+            # All Global G-SIBs for comprehensive supervision
             institutions = [
-                "Barclays", "HSBC", "Lloyds Banking Group", "NatWest Group",
-                "Standard Chartered", "Santander UK", "TSB Bank", "Virgin Money",
-                "Metro Bank", "Monzo", "Starling Bank", "Revolut",
-                "Deutsche Bank UK", "Credit Suisse UK", "UBS UK", "BNP Paribas UK",
-                "ING Bank", "Rabobank", "ABN AMRO", "Other"
+                # Bucket 4 - Highest Systemic Importance
+                "JPMorgan Chase & Co.",
+                
+                # Bucket 3 - Very High Systemic Importance
+                "Bank of America Corporation",
+                "Citigroup Inc.",
+                "HSBC Holdings plc",
+                
+                # Bucket 2 - High Systemic Importance
+                "Wells Fargo & Company",
+                "Goldman Sachs Group Inc.",
+                "Morgan Stanley",
+                
+                # Bucket 1 - Standard G-SIB Systemic Importance
+                # United States
+                "Bank of New York Mellon Corp",
+                "State Street Corporation",
+                
+                # United Kingdom
+                "Barclays PLC",
+                "Lloyds Banking Group plc",
+                "NatWest Group plc",
+                "Standard Chartered PLC",
+                
+                # European Union
+                "Deutsche Bank AG",
+                "BNP Paribas SA",
+                "Crédit Agricole SA",
+                "Société Générale SA",
+                "Banco Santander SA",
+                "Banco Bilbao Vizcaya Argentaria SA",
+                "Intesa Sanpaolo SpA",
+                "UniCredit SpA",
+                "ING Groep NV",
+                
+                # Switzerland
+                "UBS Group AG",
+                
+                # Canada
+                "Royal Bank of Canada",
+                "Toronto-Dominion Bank",
+                
+                # Japan
+                "Mizuho Financial Group Inc",
+                "Sumitomo Mitsui Financial Group Inc",
+                "Mitsubishi UFJ Financial Group Inc",
+                
+                # China
+                "Industrial and Commercial Bank of China Ltd",
+                "Bank of China Ltd",
+                "China Construction Bank Corp",
+                "Agricultural Bank of China Ltd",
+                
+                # Regional G-SIBs
+                "Nordea Bank Abp",
+                
+                # Other/Custom
+                "Other"
             ]
             
             selected_institution = st.selectbox(
@@ -1901,10 +1965,11 @@ FINAL RECOMMENDATION: {'IMMEDIATE ACTION REQUIRED' if analysis_results['composit
             self.render_upload_section()
         else:
             # Create tabs for integrated dashboard
-            tab1, tab2, tab3, tab4 = st.tabs([
+            tab1, tab2, tab3, tab4, tab5 = st.tabs([
                 "📊 Risk Analysis",
                 "🔬 Technical Validation",
-                "📋 Supervisor Dashboard",
+                "📈 Market Intelligence",
+                " Supervisor Dashboard",
                 "📄 Reports & Export"
             ])
             
@@ -1918,9 +1983,16 @@ FINAL RECOMMENDATION: {'IMMEDIATE ACTION REQUIRED' if analysis_results['composit
                     st.error("❌ Technical validation components not available")
             
             with tab3:
-                self.render_enhanced_supervisor_dashboard()
+                if MARKET_INTELLIGENCE_AVAILABLE:
+                    self.market_intelligence_dashboard.render_market_intelligence_tab()
+                else:
+                    st.error("❌ Market intelligence components not available")
+                    st.info("💡 Install required dependencies: `pip install -r requirements_market_intelligence.txt`")
             
             with tab4:
+                self.render_enhanced_supervisor_dashboard()
+            
+            with tab5:
                 self.render_reports_and_export()
 
 # Main execution
