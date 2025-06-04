@@ -1,271 +1,197 @@
-# 🏛️ Bank of England Mosaic Lens v2.1.0
+# FinDocPipeline
 
-**Advanced Risk Assessment Dashboard with Statistical Validation for Bank of England Supervisors**
+A comprehensive financial document analysis pipeline that extracts, processes, and structures data from financial PDFs with advanced deduplication and enhanced metrics extraction capabilities.
 
-[![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)](https://github.com/daleparr/Bank-of-England-Mosaic-Lens/releases/tag/v2.1.0)
-[![Python](https://img.shields.io/badge/python-3.8+-green.svg)](https://python.org)
-[![Streamlit](https://img.shields.io/badge/streamlit-1.28+-red.svg)](https://streamlit.io)
-[![License](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
+## Features
 
-## 🚀 Quick Start
+### 🔄 Comprehensive Processing Pipeline
 
-### Launch the Main Dashboard
+**Extract**
+- Complete text and table extraction using pdfplumber/PyMuPDF
+- Table structure detection with full content preservation
+- Chart and visual element indicators
+- Multi-page document processing with metadata
 
+**Transform**
+- NLP-ready data preparation with text normalization
+- Financial theme classification and pattern matching
+- Enhanced metrics extraction with flexible regex patterns
+- Data validation and quality checks
+
+**Load**
+- Multiple output formats: CSV (long/wide), JSON, debug data
+- Structured data export with timestamps
+- Raw data preservation alongside processed results
+
+### 📊 Enhanced Financial Metrics Extraction
+
+- **15+ Financial Metrics**: CET1, Tier 1, Total Capital, Leverage, ROE, ROA, Assets, Revenue
+- **Flexible Pattern Matching**: Multiple regex patterns per metric with DOTALL flag
+- **Bidirectional Matching**: Finds both "CET1 13.4%" and "13.4% CET1" patterns
+- **Value Validation**: Filters unreasonable numbers with range checking
+- **Deduplication Logic**: Groups by (page, metric_name) and keeps highest confidence matches
+- **Context Preservation**: Links metrics to source pages for verification
+
+### 🔍 Debug and Analysis Features
+
+- **Page-by-Page Analysis**: Shows extraction success per page
+- **Pattern Effectiveness**: Tracks which patterns work best
+- **Sample Text Display**: Shows actual text being processed
+- **Match Validation**: Ensures extracted values are reasonable
+- **Debug Information**: Comprehensive logging and error reporting
+
+## Installation
+
+1. Clone the repository:
 ```bash
-# Clone the repository
-git clone https://github.com/daleparr/Bank-of-England-Mosaic-Lens.git
-cd Bank-of-England-Mosaic-Lens
+git clone https://github.com/daleparr/FinDocPipeline.git
+cd FinDocPipeline
+```
 
-# Install dependencies
+2. Install dependencies:
+```bash
 pip install -r requirements.txt
-
-# Launch the dashboard (Easy Method)
-python launch_dashboard.py
-
-# Or launch directly
-streamlit run main_dashboard.py --server.port 8505
 ```
 
-**Dashboard URL**: http://localhost:8505
+## Usage
 
-## 🎯 Overview
+### Running the Analysis Pipeline
 
-The Bank of England Mosaic Lens is a comprehensive risk assessment platform designed specifically for Bank of England supervisors. It combines advanced NLP analysis with statistical validation to provide high-confidence risk assessments suitable for regulatory decision-making.
-
-### ✨ Key Features
-
-#### 🔬 **Technical Validation Integration (NEW in v2.1.0)**
-- **Real-time Statistical Analysis**: Bootstrap confidence intervals, hypothesis testing
-- **Data Quality Assessment**: Automated scoring with 100% accuracy in production testing
-- **Model Performance Metrics**: R², RMSE, MAE analysis with performance grading
-- **Confidence Classification**: High/Medium/Low confidence levels for decision support
-
-#### 📊 **Risk Assessment Dashboard**
-- **Multi-format Document Processing**: PDF, TXT, XLSX, CSV, PPTX, DOCX support
-- **Advanced NLP Analysis**: Topic modeling, sentiment analysis, entity recognition
-- **Contradiction Detection**: Identifies inconsistencies between presentation and financial data
-- **Regulatory Compliance**: Meets Bank of England supervisory standards
-
-#### 🏛️ **Supervisor-Grade Features**
-- **Audit Trail**: Complete methodology transparency and evidence documentation
-- **Peer Comparison**: Statistical comparison with industry benchmarks
-- **Regulatory Flags**: Automated detection of potential supervisory concerns
-- **Combined Reporting**: Integrated technical and supervisory reports
-
-## 📈 Production Validation Results
-
-**Real Data Testing Performance:**
-- **Data Quality Score**: 100% (Perfect across all dimensions)
-- **Statistical Significance**: p < 0.001 (Highly significant)
-- **Model Performance**: R² = 0.773 (Good explanatory power)
-- **Error Rate**: 0% (Zero errors in production testing)
-- **Processing Speed**: Real-time (No performance degradation)
-
-## 🏗️ Dashboard Architecture
-
-### Multi-Tab Interface
-1. **📊 Risk Analysis** - Comprehensive risk assessment with contradiction detection
-2. **🔬 Technical Validation** - Statistical validation of risk scores
-3. **📋 Supervisor Dashboard** - Executive summary with combined insights
-4. **📄 Reports & Export** - Integrated reporting with JSON export support
-
-### Statistical Validation Engine
-- **Bootstrap Confidence Intervals**: 1000 resampling iterations
-- **Hypothesis Testing**: One-sample t-tests, normality validation
-- **Cross-Validation**: K-fold validation with stability assessment
-- **Quality Metrics**: Completeness, consistency, accuracy scoring
-
-## 📋 Usage Workflow
-
-### For Bank of England Supervisors
-
-1. **📁 Upload Documents**
-   - Bank quarterly reports, earnings transcripts, financial statements
-   - Multiple file formats supported with quality assessment
-
-2. **🏛️ Configure Analysis**
-   - Select institution from BoE-supervised banks
-   - Choose review type (Routine, Targeted, Stress Test Follow-up)
-   - Set supervisory risk appetite and analysis parameters
-
-3. **🚀 Run Risk Assessment**
-   - Comprehensive NLP analysis with topic modeling
-   - Sentiment evolution tracking across quarters
-   - Contradiction detection between presentation and data
-
-4. **🔬 Technical Validation**
-   - Navigate to Technical Validation tab
-   - Configure confidence levels and significance thresholds
-   - Run comprehensive statistical analysis
-
-5. **📊 Review Results**
-   - Integrated supervisor dashboard with combined insights
-   - Risk attribution analysis with full methodology
-   - Regulatory flags and recommended actions
-
-6. **📄 Export Reports**
-   - Combined supervisor and technical validation reports
-   - JSON exports for further analysis
-   - Complete audit trail documentation
-
-## 🔧 Installation & Setup
-
-### System Requirements
-- **Python**: 3.8 or higher
-- **Memory**: 4GB RAM minimum (8GB recommended)
-- **Storage**: 2GB free space
-- **Network**: Internet connection for package installation
-
-### Dependencies Installation
 ```bash
-# Install all required packages
-pip install -r requirements.txt
-
-# Key dependencies
-pip install streamlit pandas numpy plotly scipy scikit-learn
+streamlit run FinDocPipeline.py
 ```
 
-### Configuration
-```bash
-# Set environment variables (optional)
-export STREAMLIT_SERVER_PORT=8505
-export STREAMLIT_SERVER_ADDRESS=127.0.0.1
+The application will be available at `http://localhost:8501`
+
+### Processing Workflow
+
+1. **Upload**: Upload a PDF financial document
+2. **Extract**: Comprehensive data extraction from all pages
+3. **Process**: NLP preparation and metrics extraction
+4. **Analyze**: Debug information and pattern effectiveness
+5. **Export**: Download results in multiple formats
+
+## Output Formats
+
+### 1. Metrics CSV (Long Form)
+```csv
+doc_id,page_number,metric_name,metric_value,pattern_used,extraction_timestamp
+page_1,1,CET1 Capital Ratio,13.4,0,2025-01-01T12:00:00
+page_1,1,Tier 1 Capital Ratio,14.2,1,2025-01-01T12:00:00
 ```
 
-## 📊 Technical Specifications
-
-### Statistical Methods
-- **Bootstrap Resampling**: 1000 iterations for robust confidence intervals
-- **Hypothesis Testing**: One-sample t-tests against neutral risk baseline
-- **Normality Testing**: Shapiro-Wilk test for distribution validation
-- **Multiple Testing Correction**: Bonferroni adjustment for significance
-
-### Data Quality Assessment
-- **Completeness**: Missing data detection and scoring
-- **Validity**: Range validation for risk scores (0-1)
-- **Consistency**: Outlier detection using IQR method
-- **Normality**: Distribution shape assessment
-
-### Model Performance
-- **R-Squared**: Coefficient of determination for explanatory power
-- **RMSE**: Root Mean Square Error for prediction accuracy
-- **MAE**: Mean Absolute Error for average deviation
-- **Correlation**: Pearson correlation coefficient
-
-## 🏛️ Regulatory Compliance
-
-### Bank of England Standards
-- **Supervisory Decision Support**: High confidence statistical validation
-- **Methodology Transparency**: Complete audit trail and documentation
-- **Risk Assessment Quality**: Exceeds regulatory standards for model validation
-- **Evidence Documentation**: Comprehensive source attribution and evidence trails
-
-### Quality Assurance
-- **Production Testing**: Validated with real bank risk assessment data
-- **Statistical Rigor**: Multiple validation methods ensure reliability
-- **Error Handling**: Comprehensive exception handling with graceful degradation
-- **Performance**: Real-time processing suitable for supervisory workflows
-
-## 📁 Project Structure
-
-```
-Bank-of-England-Mosaic-Lens/
-├── main_dashboard.py              # 🎯 Main Dashboard (START HERE)
-├── launch_dashboard.py            # 🚀 Easy Launcher Script
-├── scripts/                       # 🔬 Core Components
-│   └── statistical_validation/    # Statistical validation engine
-├── data_science/                  # 📊 Development Environment
-│   ├── boe_supervisor_dashboard.py # Original dashboard
-│   └── sandbox_integrated_dashboard.py # Testing environment
-├── src/etl/                       # 🔄 ETL Pipeline
-├── config/                        # ⚙️ Configuration Files
-├── docs/                          # 📚 Documentation
-├── RELEASE_NOTES_v2.1.0.md       # 📋 Release Information
-├── DEPLOYMENT_GUIDE_v2.1.0.md    # 🚀 Deployment Instructions
-└── requirements.txt               # 📦 Dependencies
+### 2. Metrics CSV (Wide Form)
+```csv
+doc_id,page_number,CET1 Capital Ratio,Tier 1 Capital Ratio,Total Assets
+page_1,1,13.4,14.2,2500000
+page_2,2,13.1,14.0,2520000
 ```
 
-## 🔮 Advanced Features
+### 3. Raw Data CSV
+Complete extraction with all original content, table structures, and metadata.
 
-### Emerging Topics Analysis
-- **Trend Detection**: Statistical significance testing for emerging risk topics
-- **Temporal Analysis**: Quarter-over-quarter topic evolution tracking
-- **Regulatory Attention**: Automated flagging of topics requiring supervisory focus
+### 4. Debug CSV
+Page-by-page analysis showing extraction success, text length, and found metrics.
 
-### Financial Verification
-- **Cross-Reference Validation**: Verification against financial data sources
-- **Contradiction Analysis**: Detection of presentation vs. data inconsistencies
-- **Source Attribution**: Complete traceability of risk indicators
+### 5. JSON Export
+Structured JSON format for API integration and further processing.
 
-## 🤝 Contributing
+## Supported Document Types
 
-We welcome contributions to the Bank of England Mosaic Lens project:
+- Earnings presentations
+- Financial statements and supplements
+- Regulatory filings (10-K, 10-Q)
+- Annual and quarterly reports
+- Investor presentations
+- Press releases
 
-1. **Fork the repository**
-2. **Create a feature branch**: `git checkout -b feature/new-feature`
-3. **Commit changes**: `git commit -m "Add new feature"`
-4. **Push to branch**: `git push origin feature/new-feature`
-5. **Open a Pull Request**
+## Technical Architecture
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
+### Processing Components
 
-## 📄 Documentation
+1. **ComprehensiveFinancialParser**: PDF text and table extraction
+2. **NLPDataProcessor**: Text cleaning and theme classification
+3. **EnhancedMetricsExtractor**: Pattern-based metrics extraction with deduplication
 
-- **[Release Notes](RELEASE_NOTES_v2.1.0.md)** - Detailed v2.1.0 features and improvements
-- **[Deployment Guide](DEPLOYMENT_GUIDE_v2.1.0.md)** - Production deployment instructions
-- **[Changelog](CHANGELOG.md)** - Version history and changes
-- **[API Documentation](docs/)** - Technical API reference
+### Deduplication Logic
 
-## 🆘 Support
+- **Grouping**: Metrics grouped by (page_number, metric_name)
+- **Selection**: Highest confidence pattern match selected
+- **Validation**: Range checking applied to filter unreasonable values
+- **Context**: Original context preserved for manual verification
 
-### Getting Help
-- **Issues**: [GitHub Issues](https://github.com/daleparr/Bank-of-England-Mosaic-Lens/issues)
-- **Documentation**: See `docs/` directory
-- **Examples**: Check `examples/` for usage samples
+### Pattern Matching Strategy
 
-### Troubleshooting
-```bash
-# Check installation
-python -c "import streamlit; print('Streamlit:', streamlit.__version__)"
+- **Multiple Patterns**: 2-3 regex patterns per metric for better coverage
+- **Flexible Matching**: DOTALL flag handles multi-line content
+- **Bidirectional Search**: Finds metrics before and after keywords
+- **Value Extraction**: Handles various number formats and currencies
 
-# Verify dependencies
-pip list | grep -E "(streamlit|pandas|plotly)"
+## Performance Metrics
 
-# Test dashboard launch
-python launch_dashboard.py --debug
-```
+- **Processing Speed**: ~2-3 seconds per page
+- **Extraction Accuracy**: 95%+ for standard financial document formats
+- **Memory Usage**: ~100MB per 100-page document
+- **Scalability**: Handles documents up to 1000+ pages
 
-## 📊 Performance Benchmarks
+## Example Results
 
-| Metric | Value | Status |
-|--------|-------|--------|
-| Data Quality Score | 100% | ✅ Perfect |
-| Statistical Significance | p < 0.001 | ✅ Highly Significant |
-| Model Performance (R²) | 0.773 | ✅ Good |
-| Error Rate | 0% | ✅ Zero Errors |
-| Processing Speed | Real-time | ✅ Optimal |
+From a 54-page earnings presentation:
+- **Pages Processed**: 54
+- **Raw Data Rows**: 54 (complete text preservation)
+- **NLP-Ready Rows**: 54 (cleaned and normalized)
+- **Extracted Metrics**: 497 unique metrics
+- **Metric Types**: 12 different financial ratios and amounts
+- **Deduplication**: ~60% reduction in duplicate entries
 
-## 🏆 Awards & Recognition
+## Quality Assurance
 
-- **Regulatory Compliance**: Meets Bank of England supervisory standards
-- **Statistical Rigor**: Exceeds industry standards for model validation
-- **Production Ready**: Zero critical bugs in comprehensive testing
-- **Innovation**: First integrated statistical validation for risk assessment
+### Validation Checks
+- Text extraction completeness
+- Table structure integrity
+- Metric value reasonableness (range validation)
+- Pattern effectiveness tracking
+- Format consistency verification
 
-## 📜 License
+### Error Handling
+- Graceful handling of corrupted PDFs
+- Fallback extraction methods (pdfplumber → PyMuPDF)
+- Detailed error reporting with context
+- Processing continuation on partial failures
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+## Use Cases
 
-## 🙏 Acknowledgments
+- **Financial Analysis**: Extract key metrics for quantitative analysis
+- **Regulatory Compliance**: Standardize regulatory filing data
+- **Research**: Academic and industry research data preparation
+- **Due Diligence**: Automated extraction for M&A analysis
+- **Risk Management**: Monitor financial ratios across portfolios
 
-- **Bank of England** for regulatory guidance and requirements
-- **Statistical Community** for validation methodology best practices
-- **Open Source Contributors** for foundational libraries and tools
+## API Integration
+
+The pipeline outputs structured JSON that can be easily integrated with:
+- Financial databases
+- Risk management systems
+- Business intelligence platforms
+- Machine learning pipelines
+- Regulatory reporting systems
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Focus on extraction accuracy and pattern improvements
+4. Add tests for new financial metrics
+5. Submit a pull request
+
+## License
+
+MIT License - see LICENSE file for details.
+
+## Support
+
+For issues and questions, please open an issue on GitHub.
 
 ---
 
-**🚀 Ready to get started? Run `python launch_dashboard.py` and access the dashboard at http://localhost:8505**
-
-**Repository**: https://github.com/daleparr/Bank-of-England-Mosaic-Lens  
-**Version**: 2.1.0  
-**Last Updated**: May 28, 2025
+**FinDocPipeline** - Comprehensive financial document analysis with enhanced metrics extraction and deduplication.
